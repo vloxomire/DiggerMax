@@ -21,8 +21,11 @@ namespace DiggerMax
         {
             var circulo = new CircleShape(100f)
             {
-                FillColor = SFML.Graphics.Color.Blue
+                FillColor = Color.Blue
             };
+            Sonido.PlaySonido();
+            //Console.Clear();
+            //Sonido.PlayMusica();
             //LOOP DEL JUEGO
             while (ventana.IsOpen)
             {
