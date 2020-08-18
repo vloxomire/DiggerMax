@@ -5,42 +5,78 @@ using SFML.Audio;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel.Design;
 
 namespace DiggerMax
 {
     class Juego
     {
         private RenderWindow ventana;
-        public Juego() 
+        private Clock clock;
+        private Sprite raton = null;
+
+        public static uint width = 800;
+        public static uint height = 600;
+
+        public Juego()
         {
-            var modo = new VideoMode(800,600);
-            ventana = new RenderWindow(modo, "SFLM, funciona!!!");
+            const string tituloVentana = "Digger";
+            ventana = new RenderWindow(new VideoMode(width, height),tituloVentana);
+            ventana.SetFramerateLimit(61);
+            ventana.SetMouseCursorVisible(false);
+            ventana.Closed += OnVentanaCerrada;
             ventana.KeyPressed += Ventana_PresionarTecla;//Levanta la tecla presionada?
+
+            clock = new Clock();
+
+            raton = new Sprite(new Texture(new Texture("Cursor/cursor.png")));
+            raton.Scale /= 12f;
         }
-        public void Run() 
+        public void Correr()
         {
-            var circulo = new CircleShape(100f)
+            /*var circulo = new CircleShape(100f)
             {
                 FillColor = Color.Blue
-            };
+            };*/
             Sonido.PlaySonido();
-            //Console.Clear();
-            //Sonido.PlayMusica();
-            //LOOP DEL JUEGO
+            GerenteDeEscena.CargarEscena(new Menu());
+       
             while (ventana.IsOpen)
             {
-                ventana.DispatchEvents();
-                ventana.Draw(circulo);
-                ventana.Display();
+                Actualizar();
+                Dibujar();
             }
         }
-        private void Ventana_PresionarTecla(object sender,KeyEventArgs e) 
+        private void Actualizar() 
         {
-            if (e.Code == Keyboard.Key.Escape) 
+            Time tiempo = clock.Restart();
+
+            Vector2i ratonPosicion = Mouse.GetPosition(ventana);
+            raton.Position = new Vector2f(ratonPosicion.X,ratonPosicion.Y);
+            raton.Actualizar();
+            GerenteDeEscena.DameEscenaActual().Actualizar(tiempo.AsSeconds(),ratonPosicion);
+
+            ventana.DispatchEvents();
+        }
+        private void Dibujar()
+        {
+            ventana.Clear(Color.Black);
+            GerenteDeEscena.DameEscenaActual().Dibujar(ventana);
+            ventana.Draw(raton.DameRenderer);
+            ventana.Display();
+        }
+        private void Ventana_PresionarTecla(object sender, KeyEventArgs e)
+        {
+            if (e.Code == Keyboard.Key.Escape)
             {
                 Window window = (Window)sender;
                 window.Close();
             }
+        }
+        private void OnVentanaCerrada(object sender,EventArgs e) 
+        {
+            Window win = (Window)sender;
+            win.Close();
         }
     }
 }

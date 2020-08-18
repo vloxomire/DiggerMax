@@ -11,7 +11,7 @@ namespace DiggerMax
             Console.WriteLine("Presiona Esc, para salir de la ventana");
             Juego juego = new Juego();
             Console.WriteLine("Todo, hecho!!!");
-            juego.Run();
+            juego.Correr();
         }
 
     }
