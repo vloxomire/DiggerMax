@@ -8,24 +8,23 @@ namespace DiggerMax
 {
     class ComoSeJuega : Escena
     {
-        public override void Actualizar(float DeltaTime, Vector2i posicionRaton)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Destruir()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Dibujar(RenderWindow ventana)
-        {
-            throw new NotImplementedException();
-        }
-
+        Sprite fondo;
         public override void Inicio()
         {
-            throw new NotImplementedException();
+            fondo = new Sprite(new Texture("sprite/montania.png"));
+            fondo.Scale /= 2.3f;
+        }
+        public override void Actualizar(float DeltaTime, Vector2i posicionRaton)
+        {
+            
+        }
+        public override void Dibujar(RenderWindow ventana)
+        {
+            ventana.Draw(fondo);
+        }
+        public override void Destruir()
+        {
+
         }
     }
 }

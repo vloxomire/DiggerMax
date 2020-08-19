@@ -15,8 +15,8 @@ namespace DiggerMax
         private Clock clock;
         private Sprite raton = null;
 
-        public static uint width = 1280;
-        public static uint height = 720;
+        public static uint width = 860;
+        public static uint height = 600;
 
         public Juego()
         {
@@ -29,8 +29,9 @@ namespace DiggerMax
 
             clock = new Clock();
 
-            raton = new Sprite(new Texture(new Texture("Cursor/cursor.png")));
-            raton.Scale /= 12f;
+            raton = new Sprite(new Texture(new Texture("sprite/cursor.png")));
+            raton.Position = new Vector2f(5.0f,0.0f);
+            raton.Scale /= 20f;
         }
         public void Correr()
         {
@@ -62,7 +63,7 @@ namespace DiggerMax
         {
             ventana.Clear(Color.Black);
             GerenteDeEscena.DameEscenaActual().Dibujar(ventana);
-            //ventana.Draw(raton.DameRenderer);
+            ventana.Draw(raton);
             ventana.Display();
         }
         private void Ventana_PresionarTecla(object sender, KeyEventArgs e)
