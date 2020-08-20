@@ -11,8 +11,8 @@ namespace DiggerMax
         Sprite fondo;
         public override void Inicio()
         {
-            fondo = new Sprite(new Texture("sprite/montania.png"));
-            fondo.Scale /= 2.3f;
+            fondo = new Sprite(new Texture("sprite/NuevoJuego2.png"));
+            fondo.Color = Color.Blue;
         }
         public override void Actualizar(float DeltaTime, Vector2i posicionRaton)
         {

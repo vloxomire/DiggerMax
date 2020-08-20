@@ -15,8 +15,8 @@ namespace DiggerMax
         private Clock clock;
         private Sprite raton = null;
 
-        public static uint width = 860;
-        public static uint height = 600;
+        public static uint width = 1024;
+        public static uint height = 627;
 
         public Juego()
         {
@@ -78,6 +78,10 @@ namespace DiggerMax
         {
             Window win = (Window)sender;
             win.Close();
+        }
+        public Window DameVentana() 
+        {
+            return ventana;
         }
     }
 }
