@@ -28,9 +28,21 @@ namespace DiggerMax
         {
             return renderer.GetGlobalBounds();
         }
+        public void SetActive(bool status) 
+        {
+            active = status;
+        }
         public bool isActive() 
         {
             return active;
+        }
+        public void FlipX()
+        {
+            renderer.TextureRect = new IntRect(renderer.TextureRect.Width , 0 , -renderer.TextureRect.Width, renderer.TextureRect.Height);
+        }
+        public void FlipY()
+        {
+            renderer.TextureRect = new IntRect(0,renderer.TextureRect.Height, renderer.TextureRect.Width, -renderer.TextureRect.Height);
         }
     }
 }
