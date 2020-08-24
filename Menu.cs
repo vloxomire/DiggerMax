@@ -8,11 +8,9 @@ namespace DiggerMax
 {
     class Menu : Escena
     {
-        Juego juego;
         Sprite fondo,bNuevo, bCargar, bCreditos, bSalir;
         public override void Inicio()
         {
-            juego = new Juego();
             fondo = new Sprite(new Texture("sprite/nuevoJuego2.png"));
 
             bNuevo = new Sprite(new Texture("sprite/boton1.png"));
@@ -44,7 +42,7 @@ namespace DiggerMax
                 }
                 if (bCargar.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
                 {
-                    //GerenteDeEscena.CargarEscena(new ComoSeJuega());
+                    
                 }
                 if (bCreditos.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y)) 
                 {
@@ -52,7 +50,6 @@ namespace DiggerMax
                 }
                 if (bSalir.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y)) 
                 {
-                    juego.DameVentana().Close();
                 }
             }
         }

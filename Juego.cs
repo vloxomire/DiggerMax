@@ -61,7 +61,6 @@ namespace DiggerMax
         }
         private void Dibujar()
         {
-            ventana.Clear(Color.Black);
             GerenteDeEscena.DameEscenaActual().Dibujar(ventana);
             ventana.Draw(raton);
             ventana.Display();

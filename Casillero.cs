@@ -1,21 +1,36 @@
 ﻿using SFML.Graphics;
+using SFML.System;
 using System;
 using System.Collections.Generic;
+using System.Reflection.PortableExecutable;
 using System.Text;
 
 namespace DiggerMax
 {
     class Casillero : GameObject
     {
-        Sprite[,] casillas;
-        public Casillero(Texture tex):base(tex)
+        float x;
+        float y;
+        public Casillero(Texture terreno,float x, float y):base(terreno,x,y)
         {
-            casillas = new Sprite[5,5];
-            casillas[0,0]= new Sprite(new Texture("sprite/sheetTerreno.png"));
+            this.x = x;
+            this.y = y;
         }
         public override void Actualizar(float DeltaTime)
         {
             
+        }
+        public float GetPosicionX() 
+        {
+            return x;
+        }
+        public float GetPosicionY()
+        {
+            return y;
+        }
+        public void SetTexture(String textura) 
+        {
+            renderer = new Sprite(new Texture(textura));
         }
     }
 }

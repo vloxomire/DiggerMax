@@ -8,9 +8,7 @@ namespace DiggerMax
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Presiona Esc, para salir de la ventana");
             Juego juego = new Juego();
-            Console.WriteLine("Todo, hecho!!!");
             juego.Correr();
         }
 
