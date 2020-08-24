@@ -14,8 +14,8 @@ namespace DiggerMax
         Casillero[,] casillero;
         Personaje pj;
         Sprite fondo;
-        const int fila = 10;
-        const int columna = 10;
+        const int fila = 20;
+        const int columna = 20;
 
         public override void Inicio()
         {
@@ -26,7 +26,7 @@ namespace DiggerMax
             fondo = new Sprite(new Texture("sprite/NuevoJuego2.png"));
             fondo.Color = Color.Blue;
 
-            pj = new Personaje(new Texture("sprite/minero.png"), Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.W, Keyboard.Key.S, 300.0f, 100.0f);
+            pj = new Personaje(new Texture("sprite/minero.png"), Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.W, Keyboard.Key.S, 50.0f, 50.0f);
         }
         public override void Actualizar(float deltaTime, Vector2i posicionRaton)
         {
@@ -61,8 +61,8 @@ namespace DiggerMax
         }
         private void LLenarMatriz() 
         {
-            int x = 400;
-            int y = 150;
+            int x = 0;
+            int y = 50;
             for (int f = 0; f < fila; f++)
             {
                 for (int c = 0; c < columna; c++)
@@ -70,9 +70,9 @@ namespace DiggerMax
                     //Sumar x e y progresivamente
                     casillero[f, c]=new Casillero(new Texture("sprite/tile1.png"),x,y);
                     x +=57;
-                    if (x >= 650)
+                    if (x >= 1000)
                     {
-                        x = 400;
+                        x = 0;
                         y += 66;
                     }
                 }
