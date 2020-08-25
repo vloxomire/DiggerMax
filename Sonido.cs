@@ -13,7 +13,7 @@ namespace DiggerMax
             //Creo una instancia de sonido y la ejecuto
             var sound = new Sound(buffer);
             //Ejecuto
-            sound.Play();
+            //sound.Play();
 
             //Loop del sonido en el juego
             /* while (sound.Status == SoundStatus.Playing) 
@@ -30,13 +30,6 @@ namespace DiggerMax
         {
             //Cargamos la musica
             var musica = new Music("sonido/orchestral.ogg");
-
-            //Muestro informacion de la musica
-            /*Console.WriteLine("Orchestral:");
-            Console.WriteLine(""+musica.Duration+"sec");
-            Console.WriteLine(""+musica.SampleRate+"samples/sec");
-            Console.WriteLine(""+musica.ChannelCount+"channels");*/
-
             musica.Play();//Ejecuto
 
             //Loop de la musica

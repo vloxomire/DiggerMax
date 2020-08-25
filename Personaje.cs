@@ -29,6 +29,8 @@ namespace DiggerMax
             {
                 if (renderer.Position.X >=0.0f + renderer.GetGlobalBounds().Width /2)
                 {
+                    //Pj mira Izquerda
+                    renderer.Texture=new Texture( "sprite/mineroIzq.png");
                     renderer.Position += new Vector2f(-velX * DeltaTime, 0.0f);
                 }
             }
@@ -37,6 +39,8 @@ namespace DiggerMax
             {
                 if (renderer.Position.X <= Juego.width - renderer.GetGlobalBounds().Width/2)
                 {
+                    //Pj mira derecha
+                    renderer.Texture = new Texture("sprite/mineroDer.png");
                     renderer.Position += new Vector2f(velX * DeltaTime,0.0f);
                 }
             }
