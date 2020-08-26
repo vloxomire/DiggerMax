@@ -19,9 +19,15 @@ namespace DiggerMax
         Text radar;
         int xPj=0;
         int yPj=0;
+        //Camara
+        private float zoom = 1.0f;
+        private View camara;
 
         public override void Inicio()
         {
+            //Camara
+            //Centrar camara en jugador
+            camara = new View(new Vector2f(Juego.width, Juego.height), new Vector2f(Juego.width, Juego.height));
             //Inicializo la matriz
             casillero = new Casillero[fila, columna];
             //Creo una funcion para llenar la matriz
@@ -42,6 +48,13 @@ namespace DiggerMax
         }
         public override void Actualizar(float deltaTime, Vector2i posicionRaton)
         {
+            //Centrar camara en jugador
+            camara.Center = new Vector2f(pj.GetRenderer().Position.X,0.0f);
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
+            {
+                pj.GetRenderer().Position += new Vector2f(0.0f, -2.5f);
+                fondo.Position += new Vector2f(0.0f,0.1f);//bug eefecto  velocidad
+            }
             //Variables auxiliares
             Casillero casilleroAhora = null;
             xPj = (int)pj.GetRenderer().Position.X;

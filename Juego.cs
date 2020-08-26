@@ -11,15 +11,19 @@ namespace DiggerMax
 {
     class Juego
     {
+        public static Juego instancia;
+
         private RenderWindow ventana;
         private Clock clock;
         private Sprite raton = null;
 
-        public static uint width = 1024;
-        public static uint height = 627;
+        public static uint width = 600;
+        public static uint height = 600;
 
         public Juego()
         {
+            instancia = this;
+
             const string tituloVentana = "Digger";
             ventana = new RenderWindow(new VideoMode(width, height),tituloVentana);
             ventana.SetFramerateLimit(61);
