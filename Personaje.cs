@@ -5,61 +5,29 @@ using System;
 
 namespace DiggerMax
 {
-    class Personaje : GameObject
+    class Personaje : Anima
     {
-        float velX = 100f;
-        float velY = 100f;
-        Keyboard.Key izquierda;
-        Keyboard.Key derecha;
-        Keyboard.Key subir;
-        Keyboard.Key bajar;
-        public Personaje(Texture texture,Keyboard.Key izquierda,Keyboard.Key derecha,Keyboard.Key subir,Keyboard.Key bajar,float x, float y):base(texture,x,y)
+        public Personaje() :base("Sprite/male.png",32)//256alto /4 filas =64
         {
-            this.izquierda = izquierda;
-            this.derecha = derecha;
-            this.subir = subir;
-            this.bajar = bajar;
-            //Punto del origen del pj
-            renderer.Origin = new Vector2f(renderer.GetLocalBounds().Width/2,renderer.GetLocalBounds().Height/2);
+            arriba = new Animacion(0,0,9);
+            abajo = new Animacion(64,0,9);
+            izquierda = new Animacion(32,0,9);
+            derecha = new Animacion(96,0,9);
+
+            velocidadDeMover = 150;
+            velocidadDeAnimacion = 0.05f;
         }
         public override void Actualizar(float DeltaTime)
         {
-            //Moverse a la izquierda
-            if (Keyboard.IsKeyPressed(izquierda))
-            {
-                if (renderer.Position.X >=0.0f + renderer.GetGlobalBounds().Width /2)
-                {
-                    //Pj mira Izquerda
-                    renderer.Texture=new Texture( "sprite/mineroIzq.png");
-                    renderer.Position += new Vector2f(-velX * DeltaTime, 0.0f);
-                }
-            }
-            //Moverse a la derecha
-            if (Keyboard.IsKeyPressed(derecha)) 
-            {
-                if (renderer.Position.X <= Juego.width - renderer.GetGlobalBounds().Width/2)
-                {
-                    //Pj mira derecha
-                    renderer.Texture = new Texture("sprite/mineroDer.png");
-                    renderer.Position += new Vector2f(velX * DeltaTime,0.0f);
-                }
-            }
-            //Subir
-            if (Keyboard.IsKeyPressed(subir))
-            {
-                if (renderer.Position.Y >=0.0f + renderer.GetGlobalBounds().Height/2)
-                {
-                    renderer.Position += new Vector2f(0.0f,-velY * DeltaTime);
-                }
-            }
-            //Bajar
-            if (Keyboard.IsKeyPressed(bajar)) 
-            {
-                if (renderer.Position.Y <= Juego.height - renderer.GetGlobalBounds().Height / 2)
-                {
-                    renderer.Position += new Vector2f(0.0f,velY * DeltaTime);
-                }
-            }
+            this.ESTADO_AHORA_PJ = EstadosPj.idle;
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W)) { this.ESTADO_AHORA_PJ = EstadosPj.MoverArriba; }
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.S)) { this.ESTADO_AHORA_PJ = EstadosPj.MoverAbajo; }
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.A)) { this.ESTADO_AHORA_PJ = EstadosPj.MoverIzquierda; }
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.D)) { this.ESTADO_AHORA_PJ = EstadosPj.MoverDerecha; }
+
+            base.Actualizar(DeltaTime);
         }
+
     }
 }

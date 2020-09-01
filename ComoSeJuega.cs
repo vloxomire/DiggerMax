@@ -34,8 +34,8 @@ namespace DiggerMax
             LLenarMatriz();
             fondo = new Sprite(new Texture("sprite/NuevoJuego2.png"));
             fondo.Color = Color.Blue;
-
-            pj = new Personaje(new Texture("sprite/mineroDer.png"), Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.W, Keyboard.Key.S, 50.0f, 50.0f);
+            
+            //pj = new Personaje(new Texture("sprite/mineroDer.png"), Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.W, Keyboard.Key.S, 50.0f, 50.0f);
 
             
 
@@ -48,19 +48,7 @@ namespace DiggerMax
         }
         public override void Actualizar(float deltaTime, Vector2i posicionRaton)
         {
-            //Centrar camara en jugador
-            camara.Center = new Vector2f(pj.GetRenderer().Position.X,0.0f);
-            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
-            {
-                pj.GetRenderer().Position += new Vector2f(0.0f, -2.5f);
-                fondo.Position += new Vector2f(0.0f,0.1f);//bug eefecto  velocidad
-            }
-            //Variables auxiliares
-            Casillero casilleroAhora = null;
-            xPj = (int)pj.GetRenderer().Position.X;
-            yPj = (int)pj.GetRenderer().Position.Y;
-
-            for (int f = 0; f < fila; f++)
+            /*for (int f = 0; f < fila; f++)
             {
                 for (int c = 0; c < columna; c++)
                 {
@@ -84,7 +72,7 @@ namespace DiggerMax
                 }
             }
             //En el actualizar del GamePlay un rejunte de los demas actualizar(update),que intervienen en el play
-            pj.Actualizar(deltaTime);
+            pj.Actualizar(deltaTime);*/
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -92,7 +80,7 @@ namespace DiggerMax
             //pedir el renderer de casillero para que se dibuje
             DibujarMatriz(ventana);
             ventana.Draw(radar);
-            ventana.Draw(pj.GetRenderer());
+            /*ventana.Draw(pj.GetRenderer());*/
         }
         public override void Destruir()
         {
