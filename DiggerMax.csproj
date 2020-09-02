@@ -10,6 +10,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Mapas\mapa1.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Mapas\terrain.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sprite\arachne.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Sprite\male.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

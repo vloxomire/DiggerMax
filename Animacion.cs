@@ -17,6 +17,5 @@ namespace DiggerMax
             this.setIzquierda = setIzquierda;
             this.numeroDeFrames = numeroDeFrames;
         }
-
     }
 }

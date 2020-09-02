@@ -16,7 +16,6 @@ namespace DiggerMax
         private RenderWindow ventana;
         private Clock clock;
         private Sprite raton = null;
-        private Personaje personaje;
         public static uint width = 600;
         public static uint height = 600;
 
@@ -32,7 +31,6 @@ namespace DiggerMax
             ventana.KeyPressed += Ventana_PresionarTecla;//Levanta la tecla presionada?
 
             clock = new Clock();
-            personaje = new Personaje();
             raton = new Sprite(new Texture("Sprite/pick.png"));
             raton.Position = new Vector2f(5.0f,0.0f);
             raton.Scale /= 20f;
@@ -49,6 +47,7 @@ namespace DiggerMax
 
             while (ventana.IsOpen)
             {
+                ventana.Clear(new Color(34,40,42));
                 Actualizar();
                 Dibujar();
             }
@@ -61,7 +60,6 @@ namespace DiggerMax
             raton.Position = new Vector2f(ratonPosicion.X,ratonPosicion.Y);
             //raton.Actualizar();
             GerenteDeEscena.DameEscenaActual().Actualizar(tiempo.AsSeconds(),ratonPosicion);
-            personaje.Actualizar(deltaTiempo);
 
             ventana.DispatchEvents();
         }
@@ -69,7 +67,6 @@ namespace DiggerMax
         {
             GerenteDeEscena.DameEscenaActual().Dibujar(ventana);
             ventana.Draw(raton);
-            personaje.Dibujar(ventana);
 
             ventana.Display();
         }

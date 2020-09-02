@@ -28,6 +28,5 @@ namespace DiggerMax
 
             base.Actualizar(DeltaTime);
         }
-
     }
 }

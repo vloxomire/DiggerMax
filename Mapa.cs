@@ -3,7 +3,9 @@ using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DiggerMax
 {
@@ -14,21 +16,20 @@ namespace DiggerMax
         int patronesTamanio;
         int mapaAncho;
         int mapaAlto;
-        Texture textura;
+        private Texture textura;
         Sprite[] mapaPatrones;
         Sprite[,] patrones;
-        //Metodos
         public Mapa()
         {
             //Con el Tiled se definio el tamaño del mapa de 100x100 patrones y
             //con un tamaño por patrón dde32px x 32px
             CmapaAncho = 21;//terrain
             CmapaAlto = 23;//terrain
-            mapaAlto = 100;
-            mapaAncho = 100;
+            mapaAlto = 10;
+            mapaAncho = 10;
             patronesTamanio = 32;
+            textura = new Texture("Mapas/terrain.png");
 
-            textura = new Texture("Mapa/terrain.png");
             mapaPatrones = new Sprite[CmapaAncho * CmapaAlto];
             for (int y = 0; y < CmapaAlto; y++)
             {
@@ -40,7 +41,7 @@ namespace DiggerMax
             }
 
             patrones = new Sprite[mapaAncho, mapaAlto];
-            StreamReader lector = new StreamReader("Mapa/mapa1.csv");
+            StreamReader lector = new StreamReader("Mapas/mapa1.csv");
             for (int y = 0; y < mapaAlto; y++)
             {
                 string linea = lector.ReadLine();

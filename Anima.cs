@@ -13,8 +13,8 @@ namespace DiggerMax
     abstract class Anima
     {
         //Propiedad
-        public float XPOS_PJ { get; set; }
-        public float YPOS_PJ { get; set; }
+        public float XPOS_ANIMA { get; set; }
+        public float YPOS_ANIMA { get; set; }
         public EstadosPj ESTADO_AHORA_PJ { get; set; }//objeto para acceder al enumerador
 
         //Campos
@@ -49,22 +49,22 @@ namespace DiggerMax
             {
                 case EstadosPj.MoverArriba:
                     animacionAhora = arriba;
-                    YPOS_PJ -= velocidadDeMover * deltaTiempo;
+                    YPOS_ANIMA -= velocidadDeMover * deltaTiempo;
                     break;
                 case EstadosPj.MoverAbajo:
                     animacionAhora = abajo;
-                    YPOS_PJ += velocidadDeMover * deltaTiempo;
+                    YPOS_ANIMA += velocidadDeMover * deltaTiempo;
                     break;
                 case EstadosPj.MoverIzquierda:
                     animacionAhora = izquierda;
-                    XPOS_PJ -= velocidadDeMover * deltaTiempo;
+                    XPOS_ANIMA -= velocidadDeMover * deltaTiempo;
                     break;
                 case EstadosPj.MoverDerecha:
                     animacionAhora = derecha;
-                    XPOS_PJ += velocidadDeMover * deltaTiempo;
+                    XPOS_ANIMA += velocidadDeMover * deltaTiempo;
                     break;
             }
-            sprite.Position = new Vector2f(XPOS_PJ,YPOS_PJ);//lo pasa a la posicion del pj actual
+            sprite.Position = new Vector2f(XPOS_ANIMA,YPOS_ANIMA);//lo pasa a la posicion del pj actual
             
             //Animacion x frame
             if (clock.ElapsedTime.AsSeconds()>velocidadDeAnimacion)
