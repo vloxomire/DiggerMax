@@ -10,11 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mapa\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Sprite\male.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Sprite\orc.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

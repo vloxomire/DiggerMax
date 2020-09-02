@@ -11,7 +11,7 @@ namespace DiggerMax
         Sprite fondo,bNuevo, bCargar, bCreditos, bSalir;
         public override void Inicio()
         {
-            fondo = new Sprite(new Texture("sprite/nuevoJuego2.png"));
+            fondo = new Sprite(new Texture("Sprite/juego.png"));
 
             bNuevo = new Sprite(new Texture("sprite/boton1.png"));
             bNuevo.Origin = new Vector2f(bNuevo.GetGlobalBounds().Width / 2.0f, bNuevo.GetGlobalBounds().Height / 2.0f);

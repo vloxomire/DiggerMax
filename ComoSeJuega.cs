@@ -32,16 +32,16 @@ namespace DiggerMax
             casillero = new Casillero[fila, columna];
             //Creo una funcion para llenar la matriz
             LLenarMatriz();
-            fondo = new Sprite(new Texture("sprite/NuevoJuego2.png"));
+            fondo = new Sprite(new Texture("sprite/juego.png"));
             fondo.Color = Color.Blue;
             
             //pj = new Personaje(new Texture("sprite/mineroDer.png"), Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.W, Keyboard.Key.S, 50.0f, 50.0f);
 
             
 
-            radar = new Text("x:" + xPj + "/y:" + yPj, new Font("fuentes/Minecraft.ttf"));
+            /*radar = new Text("x:" + xPj + "/y:" + yPj, new Font("fuentes/Minecraft.ttf"));
             radar.Position = new Vector2f(0.0f, 0.0f);
-            radar.Scale = new Vector2f(1.0f,1.0f);
+            radar.Scale = new Vector2f(1.0f,1.0f);*/
 
 
             
@@ -79,7 +79,7 @@ namespace DiggerMax
             ventana.Draw(fondo);
             //pedir el renderer de casillero para que se dibuje
             DibujarMatriz(ventana);
-            ventana.Draw(radar);
+            //ventana.Draw(radar);
             /*ventana.Draw(pj.GetRenderer());*/
         }
         public override void Destruir()

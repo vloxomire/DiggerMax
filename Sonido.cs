@@ -9,9 +9,9 @@ namespace DiggerMax
         public static void PlaySonido()
         {
             //Cargo el sonido de tipo buffer de un archivo
-            var buffer = new SoundBuffer("sonido/canary.wav");
+            //var buffer = new SoundBuffer("sonido/canary.wav");
             //Creo una instancia de sonido y la ejecuto
-            var sound = new Sound(buffer);
+            //var sound = new Sound(buffer);
             //Ejecuto
             //sound.Play();
 

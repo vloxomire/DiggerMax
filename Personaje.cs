@@ -7,12 +7,12 @@ namespace DiggerMax
 {
     class Personaje : Anima
     {
-        public Personaje() :base("Sprite/male.png",32)//256alto /4 filas =64
+        public Personaje() :base("Sprite/orc.png",64)//256alto /4 filas =64
         {
-            arriba = new Animacion(0,0,9);
-            abajo = new Animacion(64,0,9);
-            izquierda = new Animacion(32,0,9);
-            derecha = new Animacion(96,0,9);
+            arriba = new Animacion(512,0,9);
+            abajo = new Animacion(640,0,9);
+            izquierda = new Animacion(578,0,9);
+            derecha = new Animacion(704,0,9);
 
             velocidadDeMover = 150;
             velocidadDeAnimacion = 0.05f;

@@ -33,7 +33,7 @@ namespace DiggerMax
 
             clock = new Clock();
             personaje = new Personaje();
-            raton = new Sprite(new Texture(new Texture("sprite/cursor.png")));
+            raton = new Sprite(new Texture("Sprite/pick.png"));
             raton.Position = new Vector2f(5.0f,0.0f);
             raton.Scale /= 20f;
         }
@@ -44,8 +44,9 @@ namespace DiggerMax
                 FillColor = Color.Blue
             };*/
             Sonido.PlaySonido();
-            GerenteDeEscena.CargarEscena(new Menu());
-       
+            //GerenteDeEscena.CargarEscena(new Menu());
+            GerenteDeEscena.CargarEscena(new ComoSeJuega());
+
             while (ventana.IsOpen)
             {
                 Actualizar();
