@@ -6,12 +6,12 @@ namespace DiggerMax
 {
     class Enemigo : AnimaIA
     {
-        public Enemigo() : base("Sprite/arachne.png",100) 
+        public Enemigo() : base("Sprite/Zombie.png",64) 
         {
-            arriba = new Animacion(0,0,3);
-            abajo = new Animacion(280,0,03);
-            izquierda = new Animacion(140,0,3);
-            derecha = new Animacion(320,0,3);
+            arriba = new Animacion(512, 0, 9);
+            abajo = new Animacion(640, 0, 9);
+            izquierda = new Animacion(578, 0, 9);
+            derecha = new Animacion(704, 0, 9);
         }
     }
 }

@@ -27,9 +27,9 @@ namespace DiggerMax
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
             enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
-            enemigo.PuntoCaminoLista.Add(new PuntoCamino(100, 0));
-            enemigo.PuntoCaminoLista.Add(new PuntoCamino(100, 100));
             enemigo.PuntoCaminoLista.Add(new PuntoCamino(0, 100));
+            enemigo.PuntoCaminoLista.Add(new PuntoCamino(100, 100));
+            enemigo.PuntoCaminoLista.Add(new PuntoCamino(100,0));
         }
         public override void Actualizar(float deltaTiempo, Vector2i posicionRaton)
         {
