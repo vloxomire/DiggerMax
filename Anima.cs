@@ -6,9 +6,9 @@ using System.Text;
 
 namespace DiggerMax
 {
-    public enum EstadosPj 
+    public enum EstadosPj
     {
-        idle,MoverArriba, MoverAbajo, MoverIzquierda, MoverDerecha
+        idle, MoverArriba, MoverAbajo, MoverIzquierda, MoverDerecha
     }
     abstract class Anima
     {
@@ -16,7 +16,6 @@ namespace DiggerMax
         public float XPOS_ANIMA { get; set; }
         public float YPOS_ANIMA { get; set; }
         public EstadosPj ESTADO_AHORA_PJ { get; set; }//objeto para acceder al enumerador
-
         //Campos
         private Sprite sprite;
         private IntRect spriteRect;
@@ -29,19 +28,19 @@ namespace DiggerMax
         protected Animacion derecha;
 
         protected float velocidadDeMover = 50;
-        protected float velocidadDeAnimacion=0.1f;
+        protected float velocidadDeAnimacion = 0.1f;
 
         //Constructor
-        public Anima(string nombreDelArchivo,int tamanioDelFrame) 
+        public Anima(string nombreDelArchivo, int tamanioDelFrame)
         {
             this.tamanioDelFrame = tamanioDelFrame;
             spriteRect = new IntRect(0, 0, tamanioDelFrame, tamanioDelFrame);
-            sprite = new Sprite(new Texture(nombreDelArchivo),spriteRect);
+            sprite = new Sprite(new Texture(nombreDelArchivo), spriteRect);
 
             clock = new Clock();
             Time tiempo = clock.Restart();
         }
-        public virtual void Actualizar(float deltaTiempo) 
+        public virtual void Actualizar(float deltaTiempo)
         {
             //chequeo el movimiento
             Animacion animacionAhora = null;
@@ -64,10 +63,10 @@ namespace DiggerMax
                     XPOS_ANIMA += velocidadDeMover * deltaTiempo;
                     break;
             }
-            sprite.Position = new Vector2f(XPOS_ANIMA,YPOS_ANIMA);//lo pasa a la posicion del pj actual
-            
+            sprite.Position = new Vector2f(XPOS_ANIMA, YPOS_ANIMA);//lo pasa a la posicion del pj actual
+
             //Animacion x frame
-            if (clock.ElapsedTime.AsSeconds()>velocidadDeAnimacion)
+            if (clock.ElapsedTime.AsSeconds() > velocidadDeAnimacion)
             {
                 if (animacionAhora != null)
                 {
@@ -76,7 +75,7 @@ namespace DiggerMax
                     {
                         spriteRect.Left = 0;
                     }
-                    else 
+                    else
                     {
                         spriteRect.Left += tamanioDelFrame;
                     }
@@ -92,13 +91,6 @@ namespace DiggerMax
         public IntRect GetIntRect() 
         {
             return spriteRect;
-        }
-        public void Colision(IntRect a, IntRect b)
-        {
-            if (a.Intersects(b))
-            {
-
-            }
         }
     }
 }

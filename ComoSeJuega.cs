@@ -20,7 +20,7 @@ namespace DiggerMax
         {
             //Camara
             camara = new View(new Vector2f(0,0),new Vector2f(800,600));//camara init
-            //camara = new View(new Vector2f(Juego.width, Juego.height), new Vector2f(Juego.width, Juego.height));
+            camara = new View(new Vector2f(Juego.width, Juego.height), new Vector2f(Juego.width, Juego.height));
             mapa = new Mapa();//mapa init
 
             personaje = new Personaje()//pj init
@@ -31,15 +31,16 @@ namespace DiggerMax
 
             enemigo = new Enemigo() 
             {
-                XPOS_ANIMA = 150.0f,
-                YPOS_ANIMA = 300.0f
+                XPOS_ANIMA = Juego.width,
+                YPOS_ANIMA = 100.0f
             };
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
-            enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
-            enemigo.PuntoCaminoLista.Add(new PuntoCamino(0, 100));
-            enemigo.PuntoCaminoLista.Add(new PuntoCamino(100, 100));
-            enemigo.PuntoCaminoLista.Add(new PuntoCamino(100,0));
+            //enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
+            enemigo.PuntoCaminoLista.Add(new PuntoCamino(Juego.width,100));
+            enemigo.PuntoCaminoLista.Add(new PuntoCamino(10, 100));
+            enemigo.PuntoCaminoLista.Add(new PuntoCamino(10, 110));
+            enemigo.PuntoCaminoLista.Add(new PuntoCamino(Juego.width,110));
         }
         public override void Actualizar(float deltaTiempo, Vector2i posicionRaton)
         {

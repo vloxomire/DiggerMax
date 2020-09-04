@@ -25,8 +25,8 @@ namespace DiggerMax
             //con un tamaño por patrón dde32px x 32px
             CmapaAncho = 21;//terrain
             CmapaAlto = 23;//terrain
-            mapaAlto = 10;
-            mapaAncho = 10;
+            mapaAlto = 20;
+            mapaAncho = 20;
             patronesTamanio = 32;
             textura = new Texture("Mapas/terrain.png");
 

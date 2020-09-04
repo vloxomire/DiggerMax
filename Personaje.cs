@@ -23,18 +23,53 @@ namespace DiggerMax
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.W))
             {
-                    this.ESTADO_AHORA_PJ = EstadosPj.MoverArriba;   
+                //Colision Pared Top
+                if (YPOS_ANIMA < 0.0f - GetIntRect().Height / 3.6f)
+                {
+                    this.ESTADO_AHORA_PJ = EstadosPj.idle;
+                }
+                else 
+                {
+                    this.ESTADO_AHORA_PJ = EstadosPj.MoverArriba;
+                }  
             }
-            else if (Keyboard.IsKeyPressed(Keyboard.Key.S)) { this.ESTADO_AHORA_PJ = EstadosPj.MoverAbajo; }
-            else if (Keyboard.IsKeyPressed(Keyboard.Key.A)) { this.ESTADO_AHORA_PJ = EstadosPj.MoverIzquierda; }
-            else if (Keyboard.IsKeyPressed(Keyboard.Key.D)) { this.ESTADO_AHORA_PJ = EstadosPj.MoverDerecha; }
-
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.S))
+            {
+                //Colision Pared Bot
+                if (YPOS_ANIMA > Juego.height - GetIntRect().Height /2.0f)
+                {
+                    this.ESTADO_AHORA_PJ = EstadosPj.idle;
+                }
+                else 
+                {
+                    this.ESTADO_AHORA_PJ = EstadosPj.MoverAbajo;
+                }
+            }
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.A))
+            {
+                //Colision Pared Left
+                if (XPOS_ANIMA < 0.0f - GetIntRect().Width/2.0f)
+                {
+                    this.ESTADO_AHORA_PJ = EstadosPj.idle;
+                }
+                else 
+                {
+                    this.ESTADO_AHORA_PJ = EstadosPj.MoverIzquierda;
+                }
+            }
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+            {
+                //Colision Pared Right
+                if (XPOS_ANIMA > Juego.width - GetIntRect().Width / 4.0f)
+                {
+                    this.ESTADO_AHORA_PJ = EstadosPj.idle;
+                }
+                else 
+                {
+                    this.ESTADO_AHORA_PJ = EstadosPj.MoverDerecha;
+                }
+            }
             base.Actualizar(DeltaTime);
-        }
-        public override void Colisiones() 
-        {
-            //chquear como era el override
-            base;
         }
     }
 }
