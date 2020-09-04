@@ -89,5 +89,16 @@ namespace DiggerMax
         {
             ventana.Draw(sprite);
         }
+        public IntRect GetIntRect() 
+        {
+            return spriteRect;
+        }
+        public void Colision(IntRect a, IntRect b)
+        {
+            if (a.Intersects(b))
+            {
+
+            }
+        }
     }
 }

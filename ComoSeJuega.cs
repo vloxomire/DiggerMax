@@ -22,8 +22,18 @@ namespace DiggerMax
             camara = new View(new Vector2f(0,0),new Vector2f(800,600));//camara init
             //camara = new View(new Vector2f(Juego.width, Juego.height), new Vector2f(Juego.width, Juego.height));
             mapa = new Mapa();//mapa init
-            personaje = new Personaje();//pj init
-            enemigo = new Enemigo();
+
+            personaje = new Personaje()//pj init
+            {
+                XPOS_ANIMA = 150.0f,
+                YPOS_ANIMA = 0.0f
+            };
+
+            enemigo = new Enemigo() 
+            {
+                XPOS_ANIMA = 150.0f,
+                YPOS_ANIMA = 300.0f
+            };
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
             enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
@@ -45,6 +55,8 @@ namespace DiggerMax
 
             mapa.Draw(ventana);
             personaje.Dibujar(ventana);
+            //aca va a ir el cheqqueo de colisiones , que se converitra en una clase o ira con elpj en su actualizar
+            //COLISIONES
             enemigo.Dibujar(ventana);
         }
         public override void Destruir()

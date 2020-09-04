@@ -21,12 +21,20 @@ namespace DiggerMax
         {
             this.ESTADO_AHORA_PJ = EstadosPj.idle;
 
-            if (Keyboard.IsKeyPressed(Keyboard.Key.W)) { this.ESTADO_AHORA_PJ = EstadosPj.MoverArriba; }
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
+            {
+                    this.ESTADO_AHORA_PJ = EstadosPj.MoverArriba;   
+            }
             else if (Keyboard.IsKeyPressed(Keyboard.Key.S)) { this.ESTADO_AHORA_PJ = EstadosPj.MoverAbajo; }
             else if (Keyboard.IsKeyPressed(Keyboard.Key.A)) { this.ESTADO_AHORA_PJ = EstadosPj.MoverIzquierda; }
             else if (Keyboard.IsKeyPressed(Keyboard.Key.D)) { this.ESTADO_AHORA_PJ = EstadosPj.MoverDerecha; }
 
             base.Actualizar(DeltaTime);
+        }
+        public override void Colisiones() 
+        {
+            //chquear como era el override
+            base;
         }
     }
 }
