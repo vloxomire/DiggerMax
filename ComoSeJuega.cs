@@ -16,20 +16,24 @@ namespace DiggerMax
         private Enemigo enemigo;
         private Mapa mapa;
         private View camara;//camara
+        public Color colorPj;
+        public ComoSeJuega()
+        {
+            colorPj = new Color();
+        }
         public override void Inicio()
         {
             //Camara
-            camara = new View(new Vector2f(0,0),new Vector2f(800,600));//camara init
+            camara = new View(new Vector2f(0, 0), new Vector2f(800, 600));//camara init
             camara = new View(new Vector2f(Juego.width, Juego.height), new Vector2f(Juego.width, Juego.height));
             mapa = new Mapa();//mapa init
-
             personaje = new Personaje()//pj init
             {
                 XPOS_ANIMA = 150.0f,
                 YPOS_ANIMA = 0.0f
             };
-
-            enemigo = new Enemigo() 
+            colorPj = personaje.GetSprite().Color;
+            enemigo = new Enemigo()
             {
                 XPOS_ANIMA = Juego.width,
                 YPOS_ANIMA = 100.0f
@@ -37,10 +41,10 @@ namespace DiggerMax
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
             //enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
-            enemigo.PuntoCaminoLista.Add(new PuntoCamino(Juego.width,100));
+            enemigo.PuntoCaminoLista.Add(new PuntoCamino(Juego.width, 100));
             enemigo.PuntoCaminoLista.Add(new PuntoCamino(10, 100));
             enemigo.PuntoCaminoLista.Add(new PuntoCamino(10, 110));
-            enemigo.PuntoCaminoLista.Add(new PuntoCamino(Juego.width,110));
+            enemigo.PuntoCaminoLista.Add(new PuntoCamino(Juego.width, 110));
         }
         public override void Actualizar(float deltaTiempo, Vector2i posicionRaton)
         {
@@ -48,6 +52,7 @@ namespace DiggerMax
             personaje.Actualizar(deltaTiempo);
             enemigo.Actualizar(deltaTiempo);
             //Experimento con coaliciones desde el Update
+            ChequeoColisionesLava(deltaTiempo);
             /*if (personaje.GetIntRect().Intersects(enemigo.GetIntRect()))
             {
             bug ni lo toca y cambia
@@ -69,6 +74,13 @@ namespace DiggerMax
         public override void Destruir()
         {
 
+        }
+        public void ChequeoColisionesLava(float deltaTiempo)
+        {
+            if (personaje.GetIntRect().Intersects(mapa.GetRectangle(0))
+            {
+                personaje.ESTADO_AHORA_PJ = EstadosPj.idle;
+            }
         }
     }
 }

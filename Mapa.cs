@@ -1,11 +1,7 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DiggerMax
 {
@@ -105,6 +101,10 @@ namespace DiggerMax
                 rectangulo[i] = new RectangleShape(new Vector2f(32.0f, 32.0f));//medidas que va a tener
                 rectangulo[i].FillColor = Color.Black;
             }
+        }
+        public RectangleShape GetRectangle(int indice)
+        {
+            return rectangulo[indice];
         }
     }
 }
