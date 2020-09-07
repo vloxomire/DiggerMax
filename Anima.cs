@@ -9,6 +9,9 @@ namespace DiggerMax
     public enum EstadosPj
     {
         idle, MoverArriba, MoverAbajo, MoverIzquierda, MoverDerecha
+            ,AtacarArriba, AtacarAbajo, AtacarIzquierda,AtacarDerecha,
+            MagiaArriba, MagiaAbajo, MagiaIzquierda, MagiaDerecha,
+            Morir,Levantarse
     }
     abstract class Anima
     {
@@ -22,10 +25,18 @@ namespace DiggerMax
         private int tamanioDelFrame;
         private Clock clock;
 
-        protected Animacion arriba;
-        protected Animacion abajo;
-        protected Animacion izquierda;
-        protected Animacion derecha;
+        protected Animacion arriba,atqArb;
+        protected Animacion abajo,atqAbj;
+        protected Animacion izquierda,atqIzq;
+        protected Animacion derecha,atqDer;
+
+        protected Animacion MagiaArribaAnim;
+        protected Animacion MagiaAbajoAnim;
+        protected Animacion MagiaIzquierdaAnim;
+        protected Animacion MagiaDerechaAnim;
+
+        protected Animacion MorirAnim;
+        protected Animacion LevantarseAnim;
 
         protected float velocidadDeMover = 50;
         protected float velocidadDeAnimacion = 0.1f;
@@ -36,7 +47,6 @@ namespace DiggerMax
             this.tamanioDelFrame = tamanioDelFrame;
             spriteRect = new IntRect(0, 0, tamanioDelFrame, tamanioDelFrame);
             sprite = new Sprite(new Texture(nombreDelArchivo), spriteRect);
-
             clock = new Clock();
             Time tiempo = clock.Restart();
         }
@@ -61,6 +71,36 @@ namespace DiggerMax
                 case EstadosPj.MoverDerecha:
                     animacionAhora = derecha;
                     XPOS_ANIMA += velocidadDeMover * deltaTiempo;
+                    break;
+                case EstadosPj.AtacarArriba:
+                    animacionAhora = atqArb;
+                    break;
+                case EstadosPj.AtacarAbajo:
+                    animacionAhora = atqAbj;
+                    break;
+                case EstadosPj.AtacarIzquierda:
+                    animacionAhora = atqIzq;
+                    break;
+                case EstadosPj.AtacarDerecha:
+                    animacionAhora = atqDer;
+                    break;
+                case EstadosPj.MagiaArriba:
+                    animacionAhora = MagiaArribaAnim;
+                    break;
+                case EstadosPj.MagiaAbajo:
+                    animacionAhora = MagiaAbajoAnim;
+                    break;
+                case EstadosPj.MagiaIzquierda:
+                    animacionAhora = MagiaIzquierdaAnim;
+                    break;
+                case EstadosPj.MagiaDerecha:
+                    animacionAhora = MagiaDerechaAnim;
+                    break;
+                case EstadosPj.Morir:
+                    animacionAhora = MorirAnim;
+                    break;
+                case EstadosPj.Levantarse:
+                    animacionAhora = LevantarseAnim;
                     break;
             }
             sprite.Position = new Vector2f(XPOS_ANIMA, YPOS_ANIMA);//lo pasa a la posicion del pj actual
@@ -91,6 +131,10 @@ namespace DiggerMax
         public IntRect GetIntRect() 
         {
             return spriteRect;
+        }
+        public Sprite GetSprite() 
+        {
+            return sprite;
         }
     }
 }

@@ -47,6 +47,12 @@ namespace DiggerMax
             //En el actualizar del GamePlay un rejunte de los demas actualizar(update),que intervienen en el play*/
             personaje.Actualizar(deltaTiempo);
             enemigo.Actualizar(deltaTiempo);
+            //Experimento con coaliciones desde el Update
+            /*if (personaje.GetIntRect().Intersects(enemigo.GetIntRect()))
+            {
+            bug ni lo toca y cambia
+                personaje.GetSprite().Color = Color.Magenta;
+            }*/
         }
         public override void Dibujar(RenderWindow ventana)
         {
