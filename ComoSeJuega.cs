@@ -11,15 +11,23 @@ namespace DiggerMax
         /// <summary>
         /// 
         /// </summary>
-        //Creo una matriz del tipo casillero
+        public float Y_POS_TEXT { get; set; }
         private Personaje personaje;
         private Enemigo enemigo;
         private Mapa mapa;
         private View camara;//camara
-        public Color colorPj;
+        private Color colorPj;
+        private Color colorEnem;
+        private Font fuente;
+        Text danioInfo;
+        float textoVelocidad;
         public ComoSeJuega()
         {
             colorPj = new Color();
+            colorEnem = new Color();
+            fuente = new Font("Fuentes/MarioKart.ttf");
+            danioInfo = new Text();
+            textoVelocidad = 0.1f;
         }
         public override void Inicio()
         {
@@ -36,8 +44,9 @@ namespace DiggerMax
             enemigo = new Enemigo()
             {
                 XPOS_ANIMA = Juego.width,
-                YPOS_ANIMA = 100.0f
+                YPOS_ANIMA = 100.0f,
             };
+            colorEnem = enemigo.GetSprite().Color;
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
             //enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
@@ -51,7 +60,10 @@ namespace DiggerMax
             //En el actualizar del GamePlay un rejunte de los demas actualizar(update),que intervienen en el play*/
             personaje.Actualizar(deltaTiempo);
             enemigo.Actualizar(deltaTiempo);
-            NoCaerALava(deltaTiempo);
+            NoCaerALaLava(deltaTiempo);
+            ChocarEnemigo(deltaTiempo);
+            Y_POS_TEXT += textoVelocidad * deltaTiempo;
+            danioInfo.Position=new Vector2f(enemigo.XPOS_ANIMA,Y_POS_TEXT);
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -62,27 +74,28 @@ namespace DiggerMax
             personaje.Dibujar(ventana);
             //COLISIONES
             enemigo.Dibujar(ventana);
+            ventana.Draw(danioInfo);
         }
         public override void Destruir()
         {
 
         }
-        public void NoCaerALava(float deltaTiempo)
+        private void NoCaerALaLava(float deltaTiempo)
         {
             FloatRect pjGB = personaje.GetSprite().GetGlobalBounds();
             int valor = 0;
             //Si choco
-            if (!SiChoco(ref valor,pjGB)) 
+            if (!SiChocoConLava(ref valor,pjGB)) 
             {
                 return;
             }
             FloatRect rect = mapa.GetRectangle(valor).GetGlobalBounds();
             if (pjGB.Intersects(rect))
             {
-                CompararEstado(personaje.ESTADO_AHORA_PJ,deltaTiempo);
+                DondeChocaPj(personaje.ESTADO_AHORA_PJ,deltaTiempo);
             }
         }
-        private bool SiChoco(ref int valor,FloatRect pjGB) 
+        private bool SiChocoConLava(ref int valor,FloatRect pjGB) 
         {
             for (int i = 0; i < mapa.GetIndice(); i++)
             {
@@ -94,7 +107,7 @@ namespace DiggerMax
             }
             return false;
         }
-        private void CompararEstado(EstadosPj estado, float deltaTiempo)
+        private void DondeChocaPj(EstadosPj estado, float deltaTiempo)
         {
             switch (estado)
             {
@@ -112,6 +125,56 @@ namespace DiggerMax
                     break;
             }
         }
+        private void DondeChocaEnem(EstadosPj estado, float deltaTiempo)
+        {
+            switch (estado)
+            {
+                case EstadosPj.MoverArriba:
+                    enemigo.YPOS_ANIMA += enemigo.GetVelocidad() * deltaTiempo;
+                    break;
+                case EstadosPj.MoverIzquierda:
+                    enemigo.XPOS_ANIMA += enemigo.GetVelocidad() * deltaTiempo;
+                    break;
+                case EstadosPj.MoverAbajo:
+                    enemigo.YPOS_ANIMA -= enemigo.GetVelocidad() * deltaTiempo;
+                    break;
+                case EstadosPj.MoverDerecha:
+                    enemigo.XPOS_ANIMA -= enemigo.GetVelocidad() * deltaTiempo;
+                    break;
+            }
+        }
+        private void ChocarEnemigo(float deltaTiempo)
+        {
+            FloatRect per = personaje.GetSprite().GetGlobalBounds();
+            FloatRect enem = enemigo.GetSprite().GetGlobalBounds();
+            EstadosPj estadoPj = personaje.ESTADO_AHORA_PJ;
+            EstadosPj estadoEnem = enemigo.ESTADO_AHORA_PJ;
 
+            if (per.Intersects(enem))
+            {
+                DondeChocaPj(estadoPj, deltaTiempo);
+                DondeChocaEnem(estadoEnem, deltaTiempo);
+                Atacar(estadoPj);
+            }
+        }
+        private void Atacar(EstadosPj estadosPj) 
+        {
+            //tendria 2 subfunciones una para atq de pj y otro monster
+            if (!Keyboard.IsKeyPressed(Keyboard.Key.R))
+            {
+                enemigo.GetSprite().Color = colorEnem;
+                //danioInfo.FillColor = Color.Transparent;
+            }
+            else
+            {
+                personaje.ChequeoAtaque(estadosPj);
+                enemigo.GetSprite().Color = Color.Red;
+                enemigo.VIDA -= personaje.DANIO;
+                string vidaData = enemigo.VIDA.ToString();
+                danioInfo = new Text(vidaData,fuente);
+                danioInfo.FillColor = Color.White;
+                danioInfo.Position = new Vector2f(enemigo.XPOS_ANIMA,enemigo.YPOS_ANIMA);
+            }
+        }
     }
 }

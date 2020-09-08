@@ -7,6 +7,7 @@ namespace DiggerMax
 {
     class Personaje : Anima
     {
+        EstadosPj comoAtaca;
         public Personaje() :base("Sprite/orc.png",64)//256alto /4 filas =64
         {
             //Movimiento
@@ -29,15 +30,21 @@ namespace DiggerMax
             MorirAnim = new Animacion(1280, 0, 6);
             LevantarseAnim = new Animacion(1280,192,6);//ARREGLAR,No cambia el numero de izquierda
 
-            velocidadDeMover = 150;
+            velocidadDeMover = 400;//150
             velocidadDeAnimacion = 0.05f;
+
+            comoAtaca = EstadosPj.idle;
         }
         public override void Actualizar(float DeltaTime)
         {
             this.ESTADO_AHORA_PJ = EstadosPj.idle;
             //Si se toca el click izquierdo del mouse ataca
             ChequeoMorirLevantarse();
-            ChequeoAtaque();
+            if (this.ESTADO_AHORA_PJ != EstadosPj.idle) 
+            {
+                comoAtaca = this.ESTADO_AHORA_PJ;
+            }
+            ChequeoAtaque(comoAtaca);
             ChequeoMagia();
            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
             {
@@ -94,12 +101,25 @@ namespace DiggerMax
             }
             base.Actualizar(DeltaTime);
         }
-        private void ChequeoAtaque() 
+        public void ChequeoAtaque(EstadosPj estado) 
         {
             if (Keyboard.IsKeyPressed(Keyboard.Key.R))
             {
-                //Preguntar su posiicon actual para que la imagen del ataque sea de ese lado
-                this.ESTADO_AHORA_PJ = EstadosPj.AtacarDerecha;
+                switch (estado)
+                {
+                    case EstadosPj.MoverArriba:
+                        this.ESTADO_AHORA_PJ = EstadosPj.AtacarArriba;
+                        break;
+                    case EstadosPj.MoverIzquierda:
+                        this.ESTADO_AHORA_PJ = EstadosPj.AtacarIzquierda;
+                        break;
+                    case EstadosPj.MoverAbajo:
+                        this.ESTADO_AHORA_PJ = EstadosPj.AtacarAbajo;
+                        break;
+                    case EstadosPj.MoverDerecha:
+                        this.ESTADO_AHORA_PJ = EstadosPj.AtacarDerecha;
+                        break;
+                }
             }
         }
         private void ChequeoMagia() 

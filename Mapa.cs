@@ -32,22 +32,26 @@ namespace DiggerMax
             CreacionRectangulos();//Crea rectangulos invisibles para limitar lagos u o lava
             rectangulo[0] = new RectangleShape()
             {
-                Size = new Vector2f(32f * 3, 32f * 3)
+                Size = new Vector2f(32f * 3, 32f * 3),
+                FillColor= Color.Transparent
             };
             rectangulo[1] = new RectangleShape()
             {
                 Position = new Vector2f(32f * 7, 0.0f),
-                Size = new Vector2f(32f * 3, 32f * 3)
+                Size = new Vector2f(32f * 13, 32f * 3),
+                FillColor = Color.Transparent
             };
             rectangulo[2] = new RectangleShape()
             {
                 Position = new Vector2f(0.0f, 32f * 7),
-                Size = new Vector2f(32f * 3, 32f * 3)
+                Size = new Vector2f(32f * 3, 32f * 13),
+                FillColor = Color.Transparent
             };
             rectangulo[3] = new RectangleShape()
             {
                 Position = new Vector2f(32f * 7, 32f * 7),
-                Size = new Vector2f(32f * 3, 32f * 3)
+                Size = new Vector2f(32f * 13, 32f * 13),
+                FillColor = Color.Transparent
             };
 
             mapaPatrones = new Sprite[CmapaAncho * CmapaAlto];
