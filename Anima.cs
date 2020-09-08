@@ -136,5 +136,9 @@ namespace DiggerMax
         {
             return sprite;
         }
+        public float GetVelocidad() 
+        {
+            return velocidadDeMover;
+        }
     }
 }

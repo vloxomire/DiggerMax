@@ -99,12 +99,15 @@ namespace DiggerMax
             for (int i = 0; i < indice; i++)
             {
                 rectangulo[i] = new RectangleShape(new Vector2f(32.0f, 32.0f));//medidas que va a tener
-                rectangulo[i].FillColor = Color.Black;
             }
         }
         public RectangleShape GetRectangle(int indice)
         {
             return rectangulo[indice];
+        }
+        public int GetIndice() 
+        {
+            return indice;
         }
     }
 }

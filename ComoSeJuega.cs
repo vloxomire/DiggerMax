@@ -51,23 +51,15 @@ namespace DiggerMax
             //En el actualizar del GamePlay un rejunte de los demas actualizar(update),que intervienen en el play*/
             personaje.Actualizar(deltaTiempo);
             enemigo.Actualizar(deltaTiempo);
-            //Experimento con coaliciones desde el Update
-            ChequeoColisionesLava(deltaTiempo);
-            /*if (personaje.GetIntRect().Intersects(enemigo.GetIntRect()))
-            {
-            bug ni lo toca y cambia
-                personaje.GetSprite().Color = Color.Magenta;
-            }*/
+            NoCaerALava(deltaTiempo);
         }
         public override void Dibujar(RenderWindow ventana)
         {
             //CAMARA
             camara.Center = new Vector2f(personaje.XPOS_ANIMA, personaje.YPOS_ANIMA);//Centro camara en pj
             ventana.SetView(camara);//la ventana es la camara
-
             mapa.Draw(ventana);
             personaje.Dibujar(ventana);
-            //aca va a ir el cheqqueo de colisiones , que se converitra en una clase o ira con elpj en su actualizar
             //COLISIONES
             enemigo.Dibujar(ventana);
         }
@@ -75,12 +67,51 @@ namespace DiggerMax
         {
 
         }
-        public void ChequeoColisionesLava(float deltaTiempo)
+        public void NoCaerALava(float deltaTiempo)
         {
-            if (personaje.GetIntRect().Intersects(mapa.GetRectangle(0))
+            FloatRect pjGB = personaje.GetSprite().GetGlobalBounds();
+            int valor = 0;
+            //Si choco
+            if (!SiChoco(ref valor,pjGB)) 
             {
-                personaje.ESTADO_AHORA_PJ = EstadosPj.idle;
+                return;
+            }
+            FloatRect rect = mapa.GetRectangle(valor).GetGlobalBounds();
+            if (pjGB.Intersects(rect))
+            {
+                CompararEstado(personaje.ESTADO_AHORA_PJ,deltaTiempo);
             }
         }
+        private bool SiChoco(ref int valor,FloatRect pjGB) 
+        {
+            for (int i = 0; i < mapa.GetIndice(); i++)
+            {
+                if (pjGB.Intersects(mapa.GetRectangle(i).GetGlobalBounds()))
+                {
+                    valor = i;
+                    return true;
+                }
+            }
+            return false;
+        }
+        private void CompararEstado(EstadosPj estado, float deltaTiempo)
+        {
+            switch (estado)
+            {
+                case EstadosPj.MoverArriba:
+                    personaje.YPOS_ANIMA += personaje.GetVelocidad() * deltaTiempo;
+                    break;
+                case EstadosPj.MoverIzquierda:
+                    personaje.XPOS_ANIMA += personaje.GetVelocidad() * deltaTiempo;
+                    break;
+                case EstadosPj.MoverAbajo:
+                    personaje.YPOS_ANIMA -= personaje.GetVelocidad() * deltaTiempo;
+                    break;
+                case EstadosPj.MoverDerecha:
+                    personaje.XPOS_ANIMA -= personaje.GetVelocidad() * deltaTiempo;
+                    break;
+            }
+        }
+
     }
 }
