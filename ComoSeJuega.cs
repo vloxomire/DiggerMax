@@ -3,6 +3,7 @@ using SFML.System;
 using System;
 using SFML.Window;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace DiggerMax
 {
@@ -154,10 +155,10 @@ namespace DiggerMax
             {
                 DondeChocaPj(estadoPj, deltaTiempo);
                 DondeChocaEnem(estadoEnem, deltaTiempo);
-                Atacar(estadoPj);
+                Atacar(estadoPj,deltaTiempo);
             }
         }
-        private void Atacar(EstadosPj estadosPj) 
+        private void Atacar(EstadosPj estadosPj,float deltaTiempo) 
         {
             //tendria 2 subfunciones una para atq de pj y otro monster
             if (!Keyboard.IsKeyPressed(Keyboard.Key.R))
@@ -167,14 +168,58 @@ namespace DiggerMax
             }
             else
             {
-                personaje.ChequeoAtaque(estadosPj);
+                FloatRect per = personaje.GetSprite().GetGlobalBounds();
+                FloatRect enem = enemigo.GetSprite().GetGlobalBounds();
+                EstadosPj estadoPj = personaje.ESTADO_AHORA_PJ;
+                EstadosPj estadoEnem = enemigo.ESTADO_AHORA_PJ;
+                if (per.Intersects(enem))
+                {
+                    switch (estadoPj)
+                    {
+                        case EstadosPj.MoverArriba:
+                            personaje.ESTADO_AHORA_PJ = EstadosPj.AtacarArriba;
+                            break;
+                        case EstadosPj.MoverIzquierda:
+                            personaje.ESTADO_AHORA_PJ = EstadosPj.AtacarIzquierda;
+                            break;
+                        case EstadosPj.MoverAbajo:
+                            personaje.ESTADO_AHORA_PJ = EstadosPj.AtacarAbajo;
+                            break;
+                        case EstadosPj.MoverDerecha:
+                            personaje.ESTADO_AHORA_PJ = EstadosPj.AtacarDerecha;
+                            break;
+                    }
+                    personaje.Actualizar(deltaTiempo);
+                } 
+
+                
                 enemigo.GetSprite().Color = Color.Red;
                 enemigo.VIDA -= personaje.DANIO;
                 string vidaData = enemigo.VIDA.ToString();
                 danioInfo = new Text(vidaData,fuente);
                 danioInfo.FillColor = Color.White;
                 danioInfo.Position = new Vector2f(enemigo.XPOS_ANIMA,enemigo.YPOS_ANIMA);
+                //Pregunto por vida, si enemigo esta en 0 o meno poder rematarlo, con un boole para saber?
+                Rematar(enemigo,EstaMuerto(enemigo));
             }
+        }
+        private bool EstaMuerto(Anima anima) 
+        {
+            if (anima.VIDA >= 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        private void Rematar(Anima anima,bool muerto) 
+        {
+            if (!muerto) 
+            {
+                return;
+            }
+            //logica
+            anima.ESTADO_AHORA_PJ = EstadosPj.idle;
+            anima.GetSprite().Color = Color.Transparent;
         }
     }
 }

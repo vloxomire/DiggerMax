@@ -50,7 +50,7 @@ namespace DiggerMax
             spriteRect = new IntRect(0, 0, tamanioDelFrame, tamanioDelFrame);
             sprite = new Sprite(new Texture(nombreDelArchivo), spriteRect);
             clock = new Clock();
-            VIDA = 10;
+            VIDA = 100;
             DANIO = 2;
             Time tiempo = clock.Restart();
         }
@@ -144,5 +144,9 @@ namespace DiggerMax
         {
             return velocidadDeMover;
         }
+        /*public ~Anima() 
+        {
+
+        }*/
     }
 }

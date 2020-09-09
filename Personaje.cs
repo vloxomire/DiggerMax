@@ -44,7 +44,6 @@ namespace DiggerMax
             {
                 comoAtaca = this.ESTADO_AHORA_PJ;
             }
-            ChequeoAtaque(comoAtaca);
             ChequeoMagia();
            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
             {
@@ -57,11 +56,6 @@ namespace DiggerMax
                 {
                     this.ESTADO_AHORA_PJ = EstadosPj.MoverArriba;
                 }
-                //Colision con cajas
-                /*if (GetIntRect().Intersects(Mapa.rectangulo))
-                {
-
-                }*/
             }
             else if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
@@ -100,27 +94,6 @@ namespace DiggerMax
                 }
             }
             base.Actualizar(DeltaTime);
-        }
-        public void ChequeoAtaque(EstadosPj estado) 
-        {
-            if (Keyboard.IsKeyPressed(Keyboard.Key.R))
-            {
-                switch (estado)
-                {
-                    case EstadosPj.MoverArriba:
-                        this.ESTADO_AHORA_PJ = EstadosPj.AtacarArriba;
-                        break;
-                    case EstadosPj.MoverIzquierda:
-                        this.ESTADO_AHORA_PJ = EstadosPj.AtacarIzquierda;
-                        break;
-                    case EstadosPj.MoverAbajo:
-                        this.ESTADO_AHORA_PJ = EstadosPj.AtacarAbajo;
-                        break;
-                    case EstadosPj.MoverDerecha:
-                        this.ESTADO_AHORA_PJ = EstadosPj.AtacarDerecha;
-                        break;
-                }
-            }
         }
         private void ChequeoMagia() 
         {
