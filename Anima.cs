@@ -20,6 +20,7 @@ namespace DiggerMax
         public float YPOS_ANIMA { get; set; }
         public int VIDA { get; set; }
         public int DANIO { get; set; }
+        public bool MUERTO { get; set; }
         public EstadosPj ESTADO_AHORA_PJ { get; set; }//objeto para acceder al enumerador
         //Campos
         private Sprite sprite;
@@ -144,9 +145,5 @@ namespace DiggerMax
         {
             return velocidadDeMover;
         }
-        /*public ~Anima() 
-        {
-
-        }*/
     }
 }

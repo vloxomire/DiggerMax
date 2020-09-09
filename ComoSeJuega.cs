@@ -209,6 +209,7 @@ namespace DiggerMax
             {
                 return false;
             }
+            enemigo.MUERTO = true;
             return true;
         }
         private void Rematar(Anima anima,bool muerto) 
@@ -218,8 +219,7 @@ namespace DiggerMax
                 return;
             }
             //logica
-            anima.ESTADO_AHORA_PJ = EstadosPj.idle;
-            anima.GetSprite().Color = Color.Transparent;
+            enemigo.ESTADO_AHORA_PJ = EstadosPj.Morir;
         }
     }
 }
