@@ -15,20 +15,16 @@ namespace DiggerMax
         public float Y_POS_TEXT { get; set; }
         private Personaje personaje;
         private Enemigo enemigo;
+        private TextoDeDamage textEnem;
         private Mapa mapa;
         private View camara;//camara
         private Color colorPj;
         private Color colorEnem;
         private Font fuente;
-        Text danioInfo;
-        float textoVelocidad;
         public ComoSeJuega()
         {
             colorPj = new Color();
             colorEnem = new Color();
-            fuente = new Font("Fuentes/MarioKart.ttf");
-            danioInfo = new Text();
-            textoVelocidad = 0.1f;
         }
         public override void Inicio()
         {
@@ -48,6 +44,7 @@ namespace DiggerMax
                 YPOS_ANIMA = 100.0f,
             };
             colorEnem = enemigo.GetSprite().Color;
+            textEnem = new TextoDeDamage(enemigo);
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
             //enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
@@ -63,8 +60,7 @@ namespace DiggerMax
             enemigo.Actualizar(deltaTiempo);
             NoCaerALaLava(deltaTiempo);
             ChocarEnemigo(deltaTiempo);
-            Y_POS_TEXT += textoVelocidad * deltaTiempo;
-            danioInfo.Position=new Vector2f(enemigo.XPOS_ANIMA,Y_POS_TEXT);
+            textEnem.Actualizar(deltaTiempo);
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -75,7 +71,7 @@ namespace DiggerMax
             personaje.Dibujar(ventana);
             //COLISIONES
             enemigo.Dibujar(ventana);
-            ventana.Draw(danioInfo);
+            textEnem.Renderer(ventana);
         }
         public override void Destruir()
         {
@@ -190,15 +186,13 @@ namespace DiggerMax
                             break;
                     }
                     personaje.Actualizar(deltaTiempo);
-                } 
+                }
 
-                
+
                 enemigo.GetSprite().Color = Color.Red;
                 enemigo.VIDA -= personaje.DANIO;
-                string vidaData = enemigo.VIDA.ToString();
-                danioInfo = new Text(vidaData,fuente);
-                danioInfo.FillColor = Color.White;
-                danioInfo.Position = new Vector2f(enemigo.XPOS_ANIMA,enemigo.YPOS_ANIMA);
+                int vidaData = enemigo.VIDA;
+                textEnem.SetMensaje(vidaData);
                 //Pregunto por vida, si enemigo esta en 0 o meno poder rematarlo, con un boole para saber?
                 Rematar(enemigo,EstaMuerto(enemigo));
             }
@@ -218,8 +212,9 @@ namespace DiggerMax
             {
                 return;
             }
+            int i = 0;
             //logica
-            enemigo.ESTADO_AHORA_PJ = EstadosPj.Morir;
+                enemigo.ESTADO_AHORA_PJ = EstadosPj.Morir;
         }
     }
 }
