@@ -15,7 +15,7 @@ namespace DiggerMax
         public float Y_POS_TEXT { get; set; }
         private Personaje personaje;
         private Enemigo enemigo;
-        private TextoDeDamage textEnem;
+        private List <TextoDamage> listatextoEnem;
         private Mapa mapa;
         private View camara;//camara
         private Color colorPj;
@@ -25,6 +25,7 @@ namespace DiggerMax
         {
             colorPj = new Color();
             colorEnem = new Color();
+            listatextoEnem = new List<TextoDamage>();
         }
         public override void Inicio()
         {
@@ -44,7 +45,7 @@ namespace DiggerMax
                 YPOS_ANIMA = 100.0f,
             };
             colorEnem = enemigo.GetSprite().Color;
-            textEnem = new TextoDeDamage(enemigo);
+            textoEnem = new TextoDamage(enemigo);
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
             //enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
@@ -60,7 +61,7 @@ namespace DiggerMax
             enemigo.Actualizar(deltaTiempo);
             NoCaerALaLava(deltaTiempo);
             ChocarEnemigo(deltaTiempo);
-            textEnem.Actualizar(deltaTiempo);
+            textoEnem.Actualizar(deltaTiempo);
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -71,7 +72,7 @@ namespace DiggerMax
             personaje.Dibujar(ventana);
             //COLISIONES
             enemigo.Dibujar(ventana);
-            textEnem.Renderer(ventana);
+            textoEnem.Renderer(ventana);
         }
         public override void Destruir()
         {
@@ -192,7 +193,7 @@ namespace DiggerMax
                 enemigo.GetSprite().Color = Color.Red;
                 enemigo.VIDA -= personaje.DANIO;
                 int vidaData = enemigo.VIDA;
-                textEnem.SetMensaje(vidaData);
+                textoEnem.SetMensaje(vidaData);
                 //Pregunto por vida, si enemigo esta en 0 o meno poder rematarlo, con un boole para saber?
                 Rematar(enemigo,EstaMuerto(enemigo));
             }
