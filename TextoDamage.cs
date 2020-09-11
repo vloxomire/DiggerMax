@@ -9,8 +9,10 @@ namespace DiggerMax
     class TextoDamage
     {
         private Text damageTexto,text;
-        private int velocidad = 3;
+        private float velocidad = 3.0f;
         private bool isActivo = false;
+        public float X_Text;
+        public float Y_Text;
         public float YPOS_TEXT;
         public float XPOS_TEXT;
         private string mensaje;
@@ -29,25 +31,27 @@ namespace DiggerMax
                 damageTexto.FillColor = Color.White;
             };
             //textoPrueba
+            X_Text =10.0f;
+            Y_Text =10.0f;
+            var textLugar = new Vector2f(X_Text, Y_Text);
             text = new Text("0",font);
             text.FillColor = Color.Yellow;
-            
-            text.Position = new Vector2f(PosX, 10f);//pos init
+            text.Position = textLugar;//pos init
         }
         public void Actualizar(float deltaTiempo,string vidaData)
         {
-            if (isActivo)
+            /*if (isActivo)
             {
                 SetMensaje(vidaData);
                 
                 text.Position += new Vector2f(velocidad * deltaTiempo, 10f);
                 //listaTextoEnem.Add(textoDamage);
-            }
+            }*/
             text.Position+=new Vector2f(velocidad* deltaTiempo,30f * deltaTiempo);
-            if (text.Position.Y > 60.0f)
+            /*if (text.Position.Y > 60.0f)
             {
                 text.FillColor = Color.Transparent;
-            }
+            }*/
         }
         public void Draw(RenderWindow ventana)
         {
