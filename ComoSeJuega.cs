@@ -15,7 +15,9 @@ namespace DiggerMax
         public float Y_POS_TEXT { get; set; }
         private Personaje personaje;
         private Enemigo enemigo;
-        private List <TextoDamage> listatextoEnem;
+        TextoDamage textoDamage;
+        private List <TextoDamage> listaTextoEnem;
+        private bool isSaltando;
         private Mapa mapa;
         private View camara;//camara
         private Color colorPj;
@@ -25,7 +27,9 @@ namespace DiggerMax
         {
             colorPj = new Color();
             colorEnem = new Color();
-            listatextoEnem = new List<TextoDamage>();
+            listaTextoEnem = new List<TextoDamage>();
+            isSaltando = false;
+
         }
         public override void Inicio()
         {
@@ -45,7 +49,7 @@ namespace DiggerMax
                 YPOS_ANIMA = 100.0f,
             };
             colorEnem = enemigo.GetSprite().Color;
-            textoEnem = new TextoDamage(enemigo);
+            textoDamage = new TextoDamage(enemigo,"");
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
             //enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
@@ -61,7 +65,9 @@ namespace DiggerMax
             enemigo.Actualizar(deltaTiempo);
             NoCaerALaLava(deltaTiempo);
             ChocarEnemigo(deltaTiempo);
-            textoEnem.Actualizar(deltaTiempo);
+            string vidaData = enemigo.VIDA.ToString();
+            textoDamage.Actualizar(deltaTiempo,vidaData);
+            
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -72,7 +78,7 @@ namespace DiggerMax
             personaje.Dibujar(ventana);
             //COLISIONES
             enemigo.Dibujar(ventana);
-            textoEnem.Renderer(ventana);
+            textoDamage.Draw(ventana);
         }
         public override void Destruir()
         {
@@ -171,6 +177,7 @@ namespace DiggerMax
                 EstadosPj estadoEnem = enemigo.ESTADO_AHORA_PJ;
                 if (per.Intersects(enem))
                 {
+                    textoDamage.setIsActivo(true);
                     switch (estadoPj)
                     {
                         case EstadosPj.MoverArriba:
@@ -192,8 +199,7 @@ namespace DiggerMax
 
                 enemigo.GetSprite().Color = Color.Red;
                 enemigo.VIDA -= personaje.DANIO;
-                int vidaData = enemigo.VIDA;
-                textoEnem.SetMensaje(vidaData);
+
                 //Pregunto por vida, si enemigo esta en 0 o meno poder rematarlo, con un boole para saber?
                 Rematar(enemigo,EstaMuerto(enemigo));
             }

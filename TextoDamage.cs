@@ -8,22 +8,19 @@ namespace DiggerMax
 {
     class TextoDamage
     {
-        private Text damageTexto;
-        private int velocidadTexto = 3;
+        private Text damageTexto,text;
+        private int velocidad = 3;
         private bool isActivo = false;
-        private float dmgTY;
-        private float dmgTX;
-        private float dmgTVelY;
-        private float dmgTVelX;
-        private int mensaje = 0;
+        public float YPOS_TEXT;
+        public float XPOS_TEXT;
+        private string mensaje;
         private Anima anima;
-        public TextoDamage(Anima anima)
+        float PosX = 10;
+        public TextoDamage(Anima anima,string mensaje)
         {
             this.anima = anima;
-            this.dmgTY = anima.YPOS_ANIMA;
-            this.dmgTX = anima.XPOS_ANIMA;
-            this.dmgTVelY = 0;
-            this.dmgTVelX = 0;
+            this.YPOS_TEXT = anima.YPOS_ANIMA;
+            this.XPOS_TEXT = anima.XPOS_ANIMA;
 
             var font = new Font("Fuentes/MarioKart.ttf");
             damageTexto = new Text(mensaje.ToString(), font);
@@ -31,27 +28,57 @@ namespace DiggerMax
                 damageTexto.Origin = new Vector2f(damageTexto.GetGlobalBounds().Width / 2, damageTexto.GetGlobalBounds().Height / 2);
                 damageTexto.FillColor = Color.White;
             };
-
+            //textoPrueba
+            text = new Text("0",font);
+            text.FillColor = Color.Yellow;
+            
+            text.Position = new Vector2f(PosX, 10f);//pos init
         }
-        public void Actualizar(float deltaTiempo)
+        public void Actualizar(float deltaTiempo,string vidaData)
         {
-            damageTexto.Position = new Vector2f(anima.XPOS_ANIMA, anima.YPOS_ANIMA);
+            if (isActivo)
+            {
+                SetMensaje(vidaData);
+                
+                text.Position += new Vector2f(velocidad * deltaTiempo, 10f);
+                //listaTextoEnem.Add(textoDamage);
+            }
+            text.Position+=new Vector2f(velocidad* deltaTiempo,30f * deltaTiempo);
+            if (text.Position.Y > 60.0f)
+            {
+                text.FillColor = Color.Transparent;
+            }
         }
-        public void Renderer(RenderWindow ventana)
+        public void Draw(RenderWindow ventana)
         {
+            /*for (int i = 0; i < listaTextoEnem.Count; i++)
+            {
+                listaTextoEnem[i].Draw(ventana);
+                listaTextoEnem[i].SaltarTexto();
+            }*/
             ventana.Draw(damageTexto);
+            isActivo = false;
+            ventana.Draw(text);
         }
-        public void SaltarTexto(float velocidad) 
+        public void SaltarTexto() 
         {
-            damageTexto.Position=new Vector2f(0.0f,velocidad);
+            damageTexto.Position=new Vector2f(anima.XPOS_ANIMA, velocidad);
         }
-        public void SetMensaje(int mensaje)
+        public void SetMensaje(string mensaje)
         {
             this.mensaje = mensaje;
         }
-        public int GetMensaje()
+        public string GetMensaje()
         {
             return mensaje;
+        }
+        public void setIsActivo(bool isActivo) 
+        {
+            this.isActivo = isActivo;
+        }
+        public bool GetIsActivo() 
+        {
+            return isActivo;
         }
     }
 }
