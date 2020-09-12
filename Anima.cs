@@ -27,6 +27,7 @@ namespace DiggerMax
         private IntRect spriteRect;
         private int tamanioDelFrame;
         private Clock clock;
+        protected string nombre;
 
         protected Animacion arriba,atqArb;
         protected Animacion abajo,atqAbj;
@@ -144,6 +145,14 @@ namespace DiggerMax
         public float GetVelocidad() 
         {
             return velocidadDeMover;
+        }
+        public string GetName() 
+        {
+            return nombre;
+        }
+        public void SetNombre(string nombre) 
+        {
+            this.nombre = nombre;
         }
     }
 }

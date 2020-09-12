@@ -34,6 +34,7 @@ namespace DiggerMax
             velocidadDeAnimacion = 0.05f;
 
             comoAtaca = EstadosPj.idle;
+            nombre = "OrKo";
         }
         public override void Actualizar(float DeltaTime)
         {

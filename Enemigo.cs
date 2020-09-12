@@ -9,6 +9,7 @@ namespace DiggerMax
     {
         public Enemigo() : base("Sprite/Zombie.png",64) 
         {
+            nombre = "ZoMbIe";
             arriba = new Animacion(512, 0, 9);
             abajo = new Animacion(640, 0, 9);
             izquierda = new Animacion(578, 0, 9);

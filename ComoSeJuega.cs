@@ -15,9 +15,9 @@ namespace DiggerMax
         public float Y_POS_TEXT { get; set; }
         private Personaje personaje;
         private Enemigo enemigo;
-        TextoDamage textoDamage;
-        private List <TextoDamage> listaTextoEnem;
-        private bool isSaltando;
+        TextoPantalla textoDamage;
+        private List <TextoPantalla> listaTextoEnem;
+        private bool isActivo;
         private Mapa mapa;
         private View camara;//camara
         private Color colorPj;
@@ -27,8 +27,8 @@ namespace DiggerMax
         {
             colorPj = new Color();
             colorEnem = new Color();
-            listaTextoEnem = new List<TextoDamage>();
-            isSaltando = false;
+            listaTextoEnem = new List<TextoPantalla>();
+            isActivo = false;
 
         }
         public override void Inicio()
@@ -49,7 +49,7 @@ namespace DiggerMax
                 YPOS_ANIMA = 100.0f,
             };
             colorEnem = enemigo.GetSprite().Color;
-            textoDamage = new TextoDamage(enemigo,"");
+            textoDamage = new TextoPantalla(enemigo,"");
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
             //enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
@@ -66,7 +66,7 @@ namespace DiggerMax
             NoCaerALaLava(deltaTiempo);
             ChocarEnemigo(deltaTiempo);
             string vidaData = enemigo.VIDA.ToString();
-            textoDamage.Actualizar(deltaTiempo,vidaData);
+            textoDamage.Actualizar(deltaTiempo,vidaData,isActivo,personaje,enemigo);
             
         }
         public override void Dibujar(RenderWindow ventana)
@@ -156,6 +156,7 @@ namespace DiggerMax
 
             if (per.Intersects(enem))
             {
+                isActivo = true;
                 DondeChocaPj(estadoPj, deltaTiempo);
                 DondeChocaEnem(estadoEnem, deltaTiempo);
                 Atacar(estadoPj,deltaTiempo);
