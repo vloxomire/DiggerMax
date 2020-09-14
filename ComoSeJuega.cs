@@ -4,6 +4,7 @@ using System;
 using SFML.Window;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Reflection.PortableExecutable;
 
 namespace DiggerMax
 {
@@ -16,6 +17,7 @@ namespace DiggerMax
         private Personaje personaje;
         private Enemigo enemigo;
         TextoPantalla textoDamage;
+        BarraDeSalud barraDeSaludEne, barraDeSaludPer;
         private List <TextoPantalla> listaTextoEnem;
         private bool isActivo;
         private Mapa mapa;
@@ -50,6 +52,8 @@ namespace DiggerMax
             };
             colorEnem = enemigo.GetSprite().Color;
             textoDamage = new TextoPantalla(enemigo,"");
+            barraDeSaludEne = new BarraDeSalud(enemigo.VIDA,enemigo.GetSaludMaxima());
+            barraDeSaludPer = new BarraDeSalud(personaje.VIDA, personaje.GetSaludMaxima());
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
             //enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
@@ -67,7 +71,9 @@ namespace DiggerMax
             ChocarEnemigo(deltaTiempo);
             string vidaData = enemigo.VIDA.ToString();
             textoDamage.Actualizar(deltaTiempo,vidaData,isActivo,personaje,enemigo);
-            
+            barraDeSaludEne.Update(enemigo);
+            barraDeSaludPer.Update(personaje);
+
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -79,10 +85,8 @@ namespace DiggerMax
             //COLISIONES
             enemigo.Dibujar(ventana);
             textoDamage.Draw(ventana);
-        }
-        public override void Destruir()
-        {
-
+            barraDeSaludEne.Draw(ventana,new Vector2f(enemigo.XPOS_ANIMA,enemigo.YPOS_ANIMA+10f));
+            barraDeSaludPer.Draw(ventana, new Vector2f(personaje.XPOS_ANIMA, personaje.YPOS_ANIMA+10f));
         }
         private void NoCaerALaLava(float deltaTiempo)
         {
@@ -223,6 +227,11 @@ namespace DiggerMax
             int i = 0;
             //logica
                 enemigo.ESTADO_AHORA_PJ = EstadosPj.Morir;
+        }
+
+        public override void Destruir()
+        {
+            throw new NotImplementedException();
         }
     }
 }

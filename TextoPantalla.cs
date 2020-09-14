@@ -41,9 +41,9 @@ namespace DiggerMax
         public void Actualizar(float deltaTiempo, string vidaData, bool isActivo,Personaje personaje,Enemigo enemigo)
         {
             nombreTexto1 = new Text(personaje.GetName(), font);
-            nombreTexto1.Position = new Vector2f(personaje.GetSprite().GetGlobalBounds().Left, personaje.GetSprite().GetGlobalBounds().Top-30);
+            nombreTexto1.Position = new Vector2f(personaje.GetSprite().GetGlobalBounds().Left, personaje.GetSprite().GetGlobalBounds().Top-40);
 
-            nombreTexto2.Position = new Vector2f(enemigo.XPOS_ANIMA, enemigo.YPOS_ANIMA-30);
+            nombreTexto2.Position = new Vector2f(enemigo.XPOS_ANIMA, enemigo.YPOS_ANIMA-40);
             if (isActivo)
             {
                 text.FillColor = Color.Yellow;

@@ -44,6 +44,7 @@ namespace DiggerMax
 
         protected float velocidadDeMover = 50;
         protected float velocidadDeAnimacion = 0.1f;
+        protected float saludMaxima;
 
         //Constructor
         public Anima(string nombreDelArchivo, int tamanioDelFrame)
@@ -53,6 +54,7 @@ namespace DiggerMax
             sprite = new Sprite(new Texture(nombreDelArchivo), spriteRect);
             clock = new Clock();
             VIDA = 100;
+            saludMaxima =VIDA;
             DANIO = 2;
             Time tiempo = clock.Restart();
         }
@@ -153,6 +155,10 @@ namespace DiggerMax
         public void SetNombre(string nombre) 
         {
             this.nombre = nombre;
+        }
+        public float GetSaludMaxima() 
+        {
+            return saludMaxima;
         }
     }
 }
