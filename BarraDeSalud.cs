@@ -24,6 +24,10 @@ namespace DiggerMax
             saludDeseada = saludActual;
             CargarContenido();
         }
+        public void Inicializar() 
+        {
+
+        }
         public void CargarContenido()
         {
             //manejar texturas y sprites de acá
@@ -33,6 +37,25 @@ namespace DiggerMax
             barraRoja = new RectangleShape(area);
             barraRoja.FillColor = Color.Red;
         }
+        public void Update(Anima anima)
+        {
+            //posiicones de las barras
+            barraRoja.Position = new Vector2f(anima.XPOS_ANIMA, anima.YPOS_ANIMA);
+            barraVerde.Position = new Vector2f(anima.XPOS_ANIMA, anima.YPOS_ANIMA);
+
+            if (saludDeseada == saludActual)
+            { return; }
+            if (saludDeseada < saludActual)
+            { saludActual--; }
+            if (saludDeseada > saludActual)
+            { saludActual++; }
+            UpdateEstadoSalud();
+        }
+        public void Draw(RenderWindow ventana, Vector2f posicion)
+        {
+            ventana.Draw(barraRoja);
+            ventana.Draw(barraVerde);
+        }
         public void UpdateSalud(float saludActual,float saludMaxima ) 
         {
             saludDeseada = saludActual; //salud restada con daño,si hubiese
@@ -40,6 +63,7 @@ namespace DiggerMax
         }
         public void UpdateEstadoSalud()
         {
+            //En un futuro usar sprite
             float porcentaje = saludActual / saludMaxima;
             if (porcentaje < 0.2)
             {
@@ -54,23 +78,6 @@ namespace DiggerMax
                 actualEstadoDeSalud = EstadoDeSalud.Normal;
             }
             anchoDeBarra = (saludActual / saludMaxima) * 50;
-        }
-        public void Update(Anima anima) 
-        {
-            barraRoja.Position = new Vector2f(anima.XPOS_ANIMA,anima.YPOS_ANIMA);
-            barraVerde.Position = new Vector2f(anima.XPOS_ANIMA, anima.YPOS_ANIMA);
-            if (saludDeseada == saludActual)
-            { return; }
-            if (saludDeseada < saludActual)
-            { saludActual--; }
-            if (saludDeseada > saludActual)
-            { saludActual++; }
-            UpdateEstadoSalud();
-        }
-        public void Draw(RenderWindow ventana,Vector2f posicion) 
-        {
-            ventana.Draw(barraRoja);
-            ventana.Draw(barraVerde);
         }
     }
 }

@@ -228,7 +228,15 @@ namespace DiggerMax
             //logica
                 enemigo.ESTADO_AHORA_PJ = EstadosPj.Morir;
         }
-
+        private void Combate() 
+        {
+            //en desarrollo
+            /*ide: si chocan y se apreto la tecla de ataque.2 condiciones
+             Entonces se inicia el combate aparece  un textx en pantalla que diga fight!!!
+            depues desaaparece.
+            Toma la vida maxima y lo pasa al update de vida que esta chequeando constantemente el daño,
+            para repercutir en la barra*/
+        }
         public override void Destruir()
         {
             throw new NotImplementedException();
