@@ -20,6 +20,7 @@ namespace DiggerMax
         BarraDeSalud barraDeSaludEne, barraDeSaludPer;
         private List <TextoPantalla> listaTextoEnem;
         private bool isActivo;
+        private bool enCombate;
         private Mapa mapa;
         private View camara;//camara
         private Color colorPj;
@@ -31,7 +32,7 @@ namespace DiggerMax
             colorEnem = new Color();
             listaTextoEnem = new List<TextoPantalla>();
             isActivo = false;
-
+            enCombate = false;
         }
         public override void Inicio()
         {
@@ -52,8 +53,8 @@ namespace DiggerMax
             };
             colorEnem = enemigo.GetSprite().Color;
             textoDamage = new TextoPantalla(enemigo,"");
-            barraDeSaludEne = new BarraDeSalud(enemigo.VIDA,enemigo.GetSaludMaxima());
-            barraDeSaludPer = new BarraDeSalud(personaje.VIDA, personaje.GetSaludMaxima());
+            barraDeSaludEne = new BarraDeSalud(enemigo.VIDA,enemigo.GetSaludMaxima(),enemigo);
+            barraDeSaludPer = new BarraDeSalud(personaje.VIDA, personaje.GetSaludMaxima(),personaje);
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
             //enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
@@ -71,8 +72,8 @@ namespace DiggerMax
             ChocarEnemigo(deltaTiempo);
             string vidaData = enemigo.VIDA.ToString();
             textoDamage.Actualizar(deltaTiempo,vidaData,isActivo,personaje,enemigo);
-            barraDeSaludEne.Update(enemigo);
-            barraDeSaludPer.Update(personaje);
+            barraDeSaludEne.Update(deltaTiempo);
+            barraDeSaludPer.Update(deltaTiempo);
 
         }
         public override void Dibujar(RenderWindow ventana)
@@ -161,9 +162,14 @@ namespace DiggerMax
             if (per.Intersects(enem))
             {
                 isActivo = true;
+                enCombate = true;
                 DondeChocaPj(estadoPj, deltaTiempo);
                 DondeChocaEnem(estadoEnem, deltaTiempo);
-                Atacar(estadoPj,deltaTiempo);
+                Atacar(estadoPj, deltaTiempo);
+            }
+            else 
+            {
+                enCombate = false;
             }
         }
         private void Atacar(EstadosPj estadosPj,float deltaTiempo) 
@@ -236,6 +242,15 @@ namespace DiggerMax
             depues desaaparece.
             Toma la vida maxima y lo pasa al update de vida que esta chequeando constantemente el daño,
             para repercutir en la barra*/
+            if (!enCombate)
+            {
+                return;
+            }
+            else 
+            {
+                //Llamar un texto que diga combate
+
+            }
         }
         public override void Destruir()
         {

@@ -22,6 +22,9 @@
     <None Update="Sprite\flames.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Sprite\heart64x64.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Sprite\male.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

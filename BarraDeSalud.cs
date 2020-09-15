@@ -9,39 +9,79 @@ namespace DiggerMax
 {
     class BarraDeSalud
     {
-        private float saludActual;
-        private float saludMaxima;
-        private enum EstadoDeSalud {Normal,Bajo,Critico};
+        private enum EstadoDeSalud { Normal, Bajo, Critico };
         private EstadoDeSalud actualEstadoDeSalud;
-        private RectangleShape barraVerde,barraRoja;
         private float saludDeseada;
         private float anchoDeBarra;
-        public BarraDeSalud(float saludActual,float saludMaxima)
+        private float saludActual;
+        private float saludMaxima;
+        private float velAnimCorz = 0.1f;
+        private IntRect corazonRect;        
+        private Vector2f barraPosicion;
+        private Vector2f corazonPosicion;
+        private RectangleShape barraVerde, barraRoja;
+        private Sprite corazonSprite;
+        private Anima anima;
+        private Clock relog;
+        private Animacion corazonAnim;
+        public BarraDeSalud(float saludActual, float saludMaxima, Anima anima)
         {
+            //Se podria sacar por parametro el salud Act y Max , lo podria pedir al anima
             this.saludActual = saludActual;
             this.saludMaxima = saludMaxima;
+            this.anima = anima;
             anchoDeBarra = saludMaxima;
             saludDeseada = saludActual;
+            relog = new Clock();
+            Time tiempo = relog.Restart();
+            corazonAnim = new Animacion(0,0,6);
             CargarContenido();
         }
-        public void Inicializar() 
+        public void Inicializar()
         {
-
         }
         public void CargarContenido()
         {
             //manejar texturas y sprites de acá
-            var area = new Vector2f(anchoDeBarra,10f);
+            //Barra
+            var area = new Vector2f(anchoDeBarra, 10f);
             barraVerde = new RectangleShape(area);
             barraVerde.FillColor = Color.Green;
             barraRoja = new RectangleShape(area);
             barraRoja.FillColor = Color.Red;
+            //Corazon
+            corazonRect = new IntRect(0, 0, 64, 64);
+            corazonSprite = new Sprite(new Texture("Sprite/heart64x64.png"), corazonRect);
+            corazonSprite.Origin = new Vector2f(corazonSprite.GetGlobalBounds().Width / 2, corazonSprite.GetGlobalBounds().Height / 2);
+            corazonSprite.Scale = new Vector2f(0.5f, 0.5f);
         }
-        public void Update(Anima anima)
+        public void Update(float deltaTime)
         {
             //posiicones de las barras
             barraRoja.Position = new Vector2f(anima.XPOS_ANIMA, anima.YPOS_ANIMA);
             barraVerde.Position = new Vector2f(anima.XPOS_ANIMA, anima.YPOS_ANIMA);
+            //Corazon
+            corazonPosicion = new Vector2f(anima.XPOS_ANIMA, anima.YPOS_ANIMA);
+            corazonSprite.Position = corazonPosicion;
+
+            //Corazon Animacion
+            if (relog.ElapsedTime.AsSeconds() > velAnimCorz)
+            {
+                if (corazonAnim != null)
+                {
+                    corazonRect.Top = corazonAnim.setArriba;
+                    if (corazonRect.Left == (corazonAnim.numeroDeFrames - 1) * 64)
+                    {
+                        corazonRect.Left = 0;
+                    }
+                    else
+                    {
+                        corazonRect.Left += 64;
+                    }
+                }
+                relog.Restart();
+            }
+            corazonSprite.TextureRect = corazonRect;
 
             if (saludDeseada == saludActual)
             { return; }
@@ -55,8 +95,9 @@ namespace DiggerMax
         {
             ventana.Draw(barraRoja);
             ventana.Draw(barraVerde);
+            ventana.Draw(corazonSprite);
         }
-        public void UpdateSalud(float saludActual,float saludMaxima ) 
+        public void UpdateSalud(float saludActual, float saludMaxima)
         {
             saludDeseada = saludActual; //salud restada con daño,si hubiese
             this.saludMaxima = saludMaxima;
