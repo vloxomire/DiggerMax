@@ -30,7 +30,7 @@ namespace DiggerMax
             this.saludActual = saludActual;
             this.saludMaxima = saludMaxima;
             this.anima = anima;
-            anchoDeBarra = saludMaxima;
+            anchoDeBarra = anima.VIDAMAX;
             saludDeseada = saludActual;
             relog = new Clock();
             Time tiempo = relog.Restart();
@@ -85,11 +85,12 @@ namespace DiggerMax
 
             if (saludDeseada == saludActual)
             { return; }
-            if (saludDeseada < saludActual)
+            /*if (saludDeseada < saludActual)
             { saludActual--; }
             if (saludDeseada > saludActual)
-            { saludActual++; }
+            { saludActual++; }*/
             UpdateEstadoSalud();
+            UpdateBarraSaludAncho();
         }
         public void Draw(RenderWindow ventana, Vector2f posicion)
         {
@@ -119,6 +120,10 @@ namespace DiggerMax
                 actualEstadoDeSalud = EstadoDeSalud.Normal;
             }
             anchoDeBarra = (saludActual / saludMaxima) * 50;
+        }
+        public void UpdateBarraSaludAncho() 
+        {
+            barraVerde.Size = new Vector2f(anima.VIDA, 10f);
         }
     }
 }

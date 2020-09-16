@@ -21,6 +21,7 @@ namespace DiggerMax
         private List <TextoPantalla> listaTextoEnem;
         private bool isActivo;
         private bool enCombate;
+        private bool isGolpe;
         private Mapa mapa;
         private View camara;//camara
         private Color colorPj;
@@ -33,6 +34,7 @@ namespace DiggerMax
             listaTextoEnem = new List<TextoPantalla>();
             isActivo = false;
             enCombate = false;
+            isGolpe = false;
         }
         public override void Inicio()
         {
@@ -53,8 +55,8 @@ namespace DiggerMax
             };
             colorEnem = enemigo.GetSprite().Color;
             textoDamage = new TextoPantalla(enemigo,"");
-            barraDeSaludEne = new BarraDeSalud(enemigo.VIDA,enemigo.GetSaludMaxima(),enemigo);
-            barraDeSaludPer = new BarraDeSalud(personaje.VIDA, personaje.GetSaludMaxima(),personaje);
+            barraDeSaludEne = new BarraDeSalud(enemigo.VIDA,enemigo.VIDAMAX,enemigo);
+            barraDeSaludPer = new BarraDeSalud(personaje.VIDA, personaje.VIDAMAX,personaje);
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
             //enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
@@ -74,7 +76,7 @@ namespace DiggerMax
             textoDamage.Actualizar(deltaTiempo,vidaData,isActivo,personaje,enemigo);
             barraDeSaludEne.Update(deltaTiempo);
             barraDeSaludPer.Update(deltaTiempo);
-
+            Combate();
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -165,19 +167,20 @@ namespace DiggerMax
                 enCombate = true;
                 DondeChocaPj(estadoPj, deltaTiempo);
                 DondeChocaEnem(estadoEnem, deltaTiempo);
-                Atacar(estadoPj, deltaTiempo);
+                TeclasAtaque(estadoPj, deltaTiempo);
             }
             else 
             {
                 enCombate = false;
             }
         }
-        private void Atacar(EstadosPj estadosPj,float deltaTiempo) 
+        private void TeclasAtaque(EstadosPj estadosPj,float deltaTiempo) 
         {
             //tendria 2 subfunciones una para atq de pj y otro monster
             if (!Keyboard.IsKeyPressed(Keyboard.Key.R))
             {
                 enemigo.GetSprite().Color = colorEnem;
+                isGolpe = false;
                 //danioInfo.FillColor = Color.Transparent;
             }
             else
@@ -209,8 +212,7 @@ namespace DiggerMax
 
 
                 enemigo.GetSprite().Color = Color.Red;
-                enemigo.VIDA -= personaje.DANIO;
-
+                isGolpe = true;
                 //Pregunto por vida, si enemigo esta en 0 o meno poder rematarlo, con un boole para saber?
                 Rematar(enemigo,EstaMuerto(enemigo));
             }
@@ -248,8 +250,12 @@ namespace DiggerMax
             }
             else 
             {
-                //Llamar un texto que diga combate
-
+                //Llamar un texto que diga combate o boolean q deja activado el texto
+                if (enCombate && isGolpe)
+                {
+                    enemigo.VIDA -= personaje.DANIO;
+                }
+                barraDeSaludEne.UpdateSalud(enemigo.VIDA,enemigo.VIDAMAX);
             }
         }
         public override void Destruir()

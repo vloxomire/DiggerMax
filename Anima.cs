@@ -19,6 +19,7 @@ namespace DiggerMax
         public float XPOS_ANIMA { get; set; }
         public float YPOS_ANIMA { get; set; }
         public int VIDA { get; set; }
+        public int VIDAMAX{get;set;}
         public int DANIO { get; set; }
         public bool MUERTO { get; set; }
         public EstadosPj ESTADO_AHORA_PJ { get; set; }//objeto para acceder al enumerador
@@ -44,7 +45,6 @@ namespace DiggerMax
 
         protected float velocidadDeMover = 50;
         protected float velocidadDeAnimacion = 0.1f;
-        protected float saludMaxima;
 
         //Constructor
         public Anima(string nombreDelArchivo, int tamanioDelFrame)
@@ -53,8 +53,8 @@ namespace DiggerMax
             spriteRect = new IntRect(0, 0, tamanioDelFrame, tamanioDelFrame);
             sprite = new Sprite(new Texture(nombreDelArchivo), spriteRect);
             clock = new Clock();
-            VIDA = 100;
-            saludMaxima =VIDA;
+            VIDAMAX = 20;
+            VIDA = VIDAMAX;
             DANIO = 2;
             Time tiempo = clock.Restart();
         }
@@ -155,10 +155,6 @@ namespace DiggerMax
         public void SetNombre(string nombre) 
         {
             this.nombre = nombre;
-        }
-        public float GetSaludMaxima() 
-        {
-            return saludMaxima;
         }
     }
 }
