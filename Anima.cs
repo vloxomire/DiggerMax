@@ -132,7 +132,7 @@ namespace DiggerMax
             }
             sprite.TextureRect = spriteRect;
         }
-        public void Dibujar(RenderWindow ventana)
+        public virtual void Dibujar(RenderWindow ventana)
         {
             ventana.Draw(sprite);
         }

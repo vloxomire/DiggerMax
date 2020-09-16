@@ -16,7 +16,7 @@ namespace DiggerMax
         private float saludActual;
         private float saludMaxima;
         private float velAnimCorz = 0.1f;
-        private IntRect corazonRect;        
+        private IntRect corazonRect;
         private Vector2f barraPosicion;
         private Vector2f corazonPosicion;
         private RectangleShape barraVerde, barraRoja;
@@ -34,7 +34,7 @@ namespace DiggerMax
             saludDeseada = saludActual;
             relog = new Clock();
             Time tiempo = relog.Restart();
-            corazonAnim = new Animacion(0,0,6);
+            corazonAnim = new Animacion(0, 0, 6);
             CargarContenido();
         }
         public void Inicializar()
@@ -90,6 +90,10 @@ namespace DiggerMax
             if (saludDeseada > saludActual)
             { saludActual++; }*/
             UpdateEstadoSalud();
+            if (saludActual < 0)
+            {
+                saludActual = 0;
+            }
             UpdateBarraSaludAncho();
         }
         public void Draw(RenderWindow ventana, Vector2f posicion)
@@ -121,7 +125,7 @@ namespace DiggerMax
             }
             anchoDeBarra = (saludActual / saludMaxima) * 50;
         }
-        public void UpdateBarraSaludAncho() 
+        public void UpdateBarraSaludAncho()
         {
             barraVerde.Size = new Vector2f(anima.VIDA, 10f);
         }

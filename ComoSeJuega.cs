@@ -18,7 +18,7 @@ namespace DiggerMax
         private Enemigo enemigo;
         TextoPantalla textoDamage;
         BarraDeSalud barraDeSaludEne, barraDeSaludPer;
-        private List <TextoPantalla> listaTextoEnem;
+        private List<TextoPantalla> listaTextoEnem;
         private bool isActivo;
         private bool enCombate;
         private bool isGolpe;
@@ -27,6 +27,9 @@ namespace DiggerMax
         private Color colorPj;
         private Color colorEnem;
         private Font fuente;
+        private Text text;
+        Font font = new Font("Fuentes/MarioKart.ttf");
+        private string tempo;
         public ComoSeJuega()
         {
             colorPj = new Color();
@@ -54,9 +57,9 @@ namespace DiggerMax
                 YPOS_ANIMA = 100.0f,
             };
             colorEnem = enemigo.GetSprite().Color;
-            textoDamage = new TextoPantalla(enemigo,"");
-            barraDeSaludEne = new BarraDeSalud(enemigo.VIDA,enemigo.VIDAMAX,enemigo);
-            barraDeSaludPer = new BarraDeSalud(personaje.VIDA, personaje.VIDAMAX,personaje);
+            textoDamage = new TextoPantalla(enemigo, "");
+            barraDeSaludEne = new BarraDeSalud(enemigo.VIDA, enemigo.VIDAMAX, enemigo);
+            barraDeSaludPer = new BarraDeSalud(personaje.VIDA, personaje.VIDAMAX, personaje);
             //PATRON DE CAMINATA
             enemigo.PuntoCaminoLista = new List<PuntoCamino>();
             //enemigo.PuntoCaminoLista.Add(new PuntoCamino(0,0));
@@ -64,16 +67,20 @@ namespace DiggerMax
             enemigo.PuntoCaminoLista.Add(new PuntoCamino(10, 100));
             enemigo.PuntoCaminoLista.Add(new PuntoCamino(10, 110));
             enemigo.PuntoCaminoLista.Add(new PuntoCamino(Juego.width, 110));
+            //ayuda de relog
+            text = new Text(tempo, font);
+            text.Position = new Vector2f(0, 0);
         }
         public override void Actualizar(float deltaTiempo, Vector2i posicionRaton)
         {
+            
             //En el actualizar del GamePlay un rejunte de los demas actualizar(update),que intervienen en el play*/
             personaje.Actualizar(deltaTiempo);
             enemigo.Actualizar(deltaTiempo);
             NoCaerALaLava(deltaTiempo);
             ChocarEnemigo(deltaTiempo);
             string vidaData = enemigo.VIDA.ToString();
-            textoDamage.Actualizar(deltaTiempo,vidaData,isActivo,personaje,enemigo);
+            textoDamage.Actualizar(deltaTiempo, vidaData, isActivo, personaje, enemigo);
             barraDeSaludEne.Update(deltaTiempo);
             barraDeSaludPer.Update(deltaTiempo);
             Combate();
@@ -84,29 +91,30 @@ namespace DiggerMax
             camara.Center = new Vector2f(personaje.XPOS_ANIMA, personaje.YPOS_ANIMA);//Centro camara en pj
             ventana.SetView(camara);//la ventana es la camara
             mapa.Draw(ventana);
+            ventana.Draw(text);
             personaje.Dibujar(ventana);
             //COLISIONES
             enemigo.Dibujar(ventana);
             textoDamage.Draw(ventana);
-            barraDeSaludEne.Draw(ventana,new Vector2f(enemigo.XPOS_ANIMA,enemigo.YPOS_ANIMA+10f));
-            barraDeSaludPer.Draw(ventana, new Vector2f(personaje.XPOS_ANIMA, personaje.YPOS_ANIMA+10f));
+            barraDeSaludEne.Draw(ventana, new Vector2f(enemigo.XPOS_ANIMA, enemigo.YPOS_ANIMA + 10f));
+            barraDeSaludPer.Draw(ventana, new Vector2f(personaje.XPOS_ANIMA, personaje.YPOS_ANIMA + 10f));
         }
         private void NoCaerALaLava(float deltaTiempo)
         {
             FloatRect pjGB = personaje.GetSprite().GetGlobalBounds();
             int valor = 0;
             //Si choco
-            if (!SiChocoConLava(ref valor,pjGB)) 
+            if (!SiChocoConLava(ref valor, pjGB))
             {
                 return;
             }
             FloatRect rect = mapa.GetRectangle(valor).GetGlobalBounds();
             if (pjGB.Intersects(rect))
             {
-                DondeChocaPj(personaje.ESTADO_AHORA_PJ,deltaTiempo);
+                DondeChocaPj(personaje.ESTADO_AHORA_PJ, deltaTiempo);
             }
         }
-        private bool SiChocoConLava(ref int valor,FloatRect pjGB) 
+        private bool SiChocoConLava(ref int valor, FloatRect pjGB)
         {
             for (int i = 0; i < mapa.GetIndice(); i++)
             {
@@ -163,18 +171,19 @@ namespace DiggerMax
 
             if (per.Intersects(enem))
             {
+                Clock tiempoCombate = new Clock();
                 isActivo = true;
                 enCombate = true;
                 DondeChocaPj(estadoPj, deltaTiempo);
                 DondeChocaEnem(estadoEnem, deltaTiempo);
                 TeclasAtaque(estadoPj, deltaTiempo);
             }
-            else 
+            else
             {
                 enCombate = false;
             }
         }
-        private void TeclasAtaque(EstadosPj estadosPj,float deltaTiempo) 
+        private void TeclasAtaque(EstadosPj estadosPj, float deltaTiempo)
         {
             //tendria 2 subfunciones una para atq de pj y otro monster
             if (!Keyboard.IsKeyPressed(Keyboard.Key.R))
@@ -214,10 +223,10 @@ namespace DiggerMax
                 enemigo.GetSprite().Color = Color.Red;
                 isGolpe = true;
                 //Pregunto por vida, si enemigo esta en 0 o meno poder rematarlo, con un boole para saber?
-                Rematar(enemigo,EstaMuerto(enemigo));
+                Rematar(enemigo, EstaMuerto(enemigo));
             }
         }
-        private bool EstaMuerto(Anima anima) 
+        private bool EstaMuerto(Anima anima)
         {
             if (anima.VIDA >= 0)
             {
@@ -226,18 +235,19 @@ namespace DiggerMax
             enemigo.MUERTO = true;
             return true;
         }
-        private void Rematar(Anima anima,bool muerto) 
+        private void Rematar(Anima anima, bool muerto)
         {
-            if (!muerto) 
+            if (!muerto)
             {
                 return;
             }
             int i = 0;
             //logica
-                enemigo.ESTADO_AHORA_PJ = EstadosPj.Morir;
+            enemigo.ESTADO_AHORA_PJ = EstadosPj.Morir;
         }
-        private void Combate() 
+        private void Combate()
         {
+
             //en desarrollo
             /*ide: si chocan y se apreto la tecla de ataque.2 condiciones
              Entonces se inicia el combate aparece  un textx en pantalla que diga fight!!!
@@ -248,14 +258,18 @@ namespace DiggerMax
             {
                 return;
             }
-            else 
+            else
             {
                 //Llamar un texto que diga combate o boolean q deja activado el texto
                 if (enCombate && isGolpe)
                 {
                     enemigo.VIDA -= personaje.DANIO;
                 }
-                barraDeSaludEne.UpdateSalud(enemigo.VIDA,enemigo.VIDAMAX);
+                barraDeSaludEne.UpdateSalud(enemigo.VIDA, enemigo.VIDAMAX);
+                if (enCombate)
+                {
+
+                }
             }
         }
         public override void Destruir()
