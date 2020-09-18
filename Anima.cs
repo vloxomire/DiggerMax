@@ -28,7 +28,8 @@ namespace DiggerMax
         private IntRect spriteRect;
         private int tamanioDelFrame;
         private Clock clock;
-        protected string nombre;
+        protected Text text;
+        protected string nombre,dialogo;
 
         protected Animacion arriba,atqArb;
         protected Animacion abajo,atqAbj;
@@ -57,6 +58,8 @@ namespace DiggerMax
             VIDA = VIDAMAX;
             DANIO = 2;
             Time tiempo = clock.Restart();
+            text = new Text();
+            dialogo = "";
         }
         public virtual void Actualizar(float deltaTiempo)
         {
