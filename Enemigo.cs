@@ -13,6 +13,7 @@ namespace DiggerMax
         private Text tiempoAtaque;
         private float tiempoFloat;
         private string secundero;
+        public bool ATACO;
         public Enemigo() : base("Sprite/Zombie.png", 64)
         {
             //Animacion
@@ -26,6 +27,7 @@ namespace DiggerMax
             tiempoAtaque = new Text();
             nombre = "ZoMbIe";
             secundero = "";
+            ATACO = false;
             Init();
         }
         public void Init()
@@ -57,8 +59,10 @@ namespace DiggerMax
         }
         private void ProximoAtaque()
         {
+            ATACO = false;
             if (tiempoFloat < 4f)
             {
+                ATACO = true;
                 text.FillColor = Color.Transparent;
                 return;
             }
@@ -73,10 +77,12 @@ namespace DiggerMax
                 }
                 if (tiempoFloat > 7f)
                 {
+                    ATACO = true;
                     text.CharacterSize = 25;
                 }
                 if (tiempoFloat > 10f)
                 {
+                    ATACO = true;
                     Time time = clock.Restart();
                 }
 

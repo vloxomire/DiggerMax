@@ -55,9 +55,9 @@ namespace DiggerMax
             spriteRect = new IntRect(0, 0, tamanioDelFrame, tamanioDelFrame);
             sprite = new Sprite(new Texture(nombreDelArchivo), spriteRect);
             clock = new Clock();
-            VIDAMAX = 20;
+            VIDAMAX = 25;
             VIDA = VIDAMAX;
-            DANIO = 2;
+            DANIO = 5;
             fuenteMonstruo = new Font("Fuentes/NightOfTheDeads.ttf");
             Time tiempo = clock.Restart();
             text = new Text();

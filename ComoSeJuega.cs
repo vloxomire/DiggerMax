@@ -20,14 +20,14 @@ namespace DiggerMax
         BarraDeSalud barraDeSaludEne, barraDeSaludPer;
         private List<TextoPantalla> listaTextoEnem;
         private bool isActivo;
-        private bool enCombate;
+        private bool seChocan;
         private bool isGolpe;
         private Mapa mapa;
         private View camara;//camara
         private Color colorPj;
         private Color colorEnem;
         private Font fuente;
-        private Text text;
+        private Text text, textColision;
         Font font = new Font("Fuentes/MarioKart.ttf");
         private string tempo;
         public ComoSeJuega()
@@ -36,7 +36,7 @@ namespace DiggerMax
             colorEnem = new Color();
             listaTextoEnem = new List<TextoPantalla>();
             isActivo = false;
-            enCombate = false;
+            seChocan = false;
             isGolpe = false;
         }
         public override void Inicio()
@@ -58,6 +58,9 @@ namespace DiggerMax
             };
             colorEnem = enemigo.GetSprite().Color;
             textoDamage = new TextoPantalla(enemigo, "");
+
+          
+
             barraDeSaludEne = new BarraDeSalud(enemigo.VIDA, enemigo.VIDAMAX, enemigo);
             barraDeSaludPer = new BarraDeSalud(personaje.VIDA, personaje.VIDAMAX, personaje);
             //PATRON DE CAMINATA
@@ -70,6 +73,7 @@ namespace DiggerMax
             //ayuda de relog
             text = new Text(tempo, font);
             text.Position = new Vector2f(0, 0);
+
         }
         public override void Actualizar(float deltaTiempo, Vector2i posicionRaton)
         {
@@ -78,12 +82,20 @@ namespace DiggerMax
             personaje.Actualizar(deltaTiempo);
             enemigo.Actualizar(deltaTiempo);
             NoCaerALaLava(deltaTiempo);
-            ChocarEnemigo(deltaTiempo);
+
             string vidaData = enemigo.VIDA.ToString();
             textoDamage.Actualizar(deltaTiempo, vidaData, isActivo, personaje, enemigo);
+
             barraDeSaludEne.Update(deltaTiempo);
             barraDeSaludPer.Update(deltaTiempo);
-            Combate();
+
+            string coli = seChocan.ToString();
+            textColision = new Text(coli, font);
+            seChocan =ChocarEnemigo(deltaTiempo);
+            Vector2f enemigoPosicion = new Vector2f(enemigo.XPOS_ANIMA, enemigo.YPOS_ANIMA - 70);
+            textColision.Position = enemigoPosicion;
+
+            Combate(seChocan);
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -96,6 +108,7 @@ namespace DiggerMax
             //COLISIONES
             enemigo.Dibujar(ventana);
             textoDamage.Draw(ventana);
+            ventana.Draw(textColision);
             barraDeSaludEne.Draw(ventana, new Vector2f(enemigo.XPOS_ANIMA, enemigo.YPOS_ANIMA + 10f));
             barraDeSaludPer.Draw(ventana, new Vector2f(personaje.XPOS_ANIMA, personaje.YPOS_ANIMA + 10f));
         }
@@ -162,7 +175,7 @@ namespace DiggerMax
                     break;
             }
         }
-        private void ChocarEnemigo(float deltaTiempo)
+        private bool ChocarEnemigo(float deltaTiempo)
         {
             FloatRect per = personaje.GetSprite().GetGlobalBounds();
             FloatRect enem = enemigo.GetSprite().GetGlobalBounds();
@@ -173,15 +186,16 @@ namespace DiggerMax
             {
                 Clock tiempoCombate = new Clock();
                 isActivo = true;
-                enCombate = true;
+                seChocan = true;
                 DondeChocaPj(estadoPj, deltaTiempo);
                 DondeChocaEnem(estadoEnem, deltaTiempo);
                 TeclasAtaque(estadoPj, deltaTiempo);
             }
             else
             {
-                enCombate = false;
+                seChocan = false;
             }
+            return seChocan;
         }
         private void TeclasAtaque(EstadosPj estadosPj, float deltaTiempo)
         {
@@ -245,30 +259,36 @@ namespace DiggerMax
             //logica
             enemigo.ESTADO_AHORA_PJ = EstadosPj.Morir;
         }
-        private void Combate()
+        private void Combate(bool seChocan)
         {
-
-            //en desarrollo
-            /*ide: si chocan y se apreto la tecla de ataque.2 condiciones
-             Entonces se inicia el combate aparece  un textx en pantalla que diga fight!!!
-            depues desaaparece.
-            Toma la vida maxima y lo pasa al update de vida que esta chequeando constantemente el daño,
-            para repercutir en la barra*/
-            if (!enCombate)
+            if (!seChocan)
             {
                 return;
             }
             else
             {
-                //Llamar un texto que diga combate o boolean q deja activado el texto
-                if (enCombate && isGolpe)
+                //quien pega primero?
+                if (!isGolpe)
+                {
+                    return;
+                }
+                else if(enemigo.ATACO)
+                {
+                    personaje.VIDA -= enemigo.DANIO;
+                    if (personaje.VIDA < 0)
+                    {
+                        personaje.VIDA = 0;
+                    }
+                    barraDeSaludPer.UpdateSalud(personaje.VIDA, personaje.VIDAMAX);
+                }
+                
                 {
                     enemigo.VIDA -= personaje.DANIO;
-                }
-                barraDeSaludEne.UpdateSalud(enemigo.VIDA, enemigo.VIDAMAX);
-                if (enCombate)
-                {
-
+                    if (enemigo.VIDA < 0)
+                    {
+                        enemigo.VIDA = 0;
+                    }
+                    barraDeSaludEne.UpdateSalud(enemigo.VIDA, enemigo.VIDAMAX);
                 }
             }
         }

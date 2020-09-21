@@ -30,6 +30,7 @@ namespace DiggerMax
             MorirAnim = new Animacion(1280, 0, 6);
             LevantarseAnim = new Animacion(1280,192,6);//ARREGLAR,No cambia el numero de izquierda
 
+            VIDAMAX = 50;
             velocidadDeMover = 400;//150
             velocidadDeAnimacion = 0.05f;
 
