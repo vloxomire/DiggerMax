@@ -29,6 +29,7 @@ namespace DiggerMax
         private int tamanioDelFrame;
         private Clock clock;
         protected Text text;
+        protected Font fuenteMonstruo;
         protected string nombre,dialogo;
 
         protected Animacion arriba,atqArb;
@@ -57,6 +58,7 @@ namespace DiggerMax
             VIDAMAX = 20;
             VIDA = VIDAMAX;
             DANIO = 2;
+            fuenteMonstruo = new Font("Fuentes/NightOfTheDeads.ttf");
             Time tiempo = clock.Restart();
             text = new Text();
             dialogo = "";
