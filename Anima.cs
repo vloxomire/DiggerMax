@@ -28,9 +28,9 @@ namespace DiggerMax
         private IntRect spriteRect;
         private int tamanioDelFrame;
         private Clock clock;
-        protected Text text;
+        protected Text textDialogo;
         protected Font fuenteMonstruo;
-        protected string nombre,dialogo;
+        protected string nombre,stringVoz;
 
         protected Animacion arriba,atqArb;
         protected Animacion abajo,atqAbj;
@@ -57,12 +57,14 @@ namespace DiggerMax
             clock = new Clock();
             VIDAMAX = 25;
             VIDA = VIDAMAX;
-            DANIO = 5;
+            DANIO = 2;
             fuenteMonstruo = new Font("Fuentes/NightOfTheDeads.ttf");
             Time tiempo = clock.Restart();
-            text = new Text();
-            dialogo = "";
+            textDialogo = new Text();
+            stringVoz = "";
         }
+        public virtual void Inicializar() { }
+        public virtual void CargarContenido() { }
         public virtual void Actualizar(float deltaTiempo)
         {
             //chequeo el movimiento

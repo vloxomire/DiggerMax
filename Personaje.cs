@@ -8,18 +8,18 @@ namespace DiggerMax
     class Personaje : Anima
     {
         EstadosPj comoAtaca;
-        public Personaje() :base("Sprite/orc.png",64)//256alto /4 filas =64
+        public Personaje() : base("Sprite/orc.png", 64)//256alto /4 filas =64
         {
             //Movimiento
-            arriba = new Animacion(512,0,9);
-            abajo = new Animacion(640,0,9);
-            izquierda = new Animacion(578,0,9);
-            derecha = new Animacion(704,0,9);
+            arriba = new Animacion(512, 0, 9);
+            abajo = new Animacion(640, 0, 9);
+            izquierda = new Animacion(578, 0, 9);
+            derecha = new Animacion(704, 0, 9);
             //Ataque
-            atqArb = new Animacion(775,0,6);//cada 64
+            atqArb = new Animacion(775, 0, 6);//cada 64
             atqIzq = new Animacion(839, 0, 6);
-            atqAbj = new Animacion(903,0,6);
-            atqDer = new Animacion(967,0,6);
+            atqAbj = new Animacion(903, 0, 6);
+            atqDer = new Animacion(967, 0, 6);
             //Magia
             MagiaArribaAnim = new Animacion(0, 0, 7);
             MagiaIzquierdaAnim = new Animacion(64, 0, 7);
@@ -28,9 +28,9 @@ namespace DiggerMax
             //Morir o hacerse el muerto y Levantarse
             //Version como puedo invertir el bucle para que se levante
             MorirAnim = new Animacion(1280, 0, 6);
-            LevantarseAnim = new Animacion(1280,192,6);//ARREGLAR,No cambia el numero de izquierda
+            LevantarseAnim = new Animacion(1280, 192, 6);//ARREGLAR,No cambia el numero de izquierda
 
-            VIDAMAX = 50;
+            VIDAMAX = 550;
             velocidadDeMover = 400;//150
             velocidadDeAnimacion = 0.05f;
 
@@ -42,19 +42,19 @@ namespace DiggerMax
             this.ESTADO_AHORA_PJ = EstadosPj.idle;
             //Si se toca el click izquierdo del mouse ataca
             ChequeoMorirLevantarse();
-            if (this.ESTADO_AHORA_PJ != EstadosPj.idle) 
+            if (this.ESTADO_AHORA_PJ != EstadosPj.idle)
             {
                 comoAtaca = this.ESTADO_AHORA_PJ;
             }
             ChequeoMagia();
-           if (Keyboard.IsKeyPressed(Keyboard.Key.W))
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
             {
                 //Colision Pared Top
                 if (YPOS_ANIMA < 0.0f - GetIntRect().Height / 3.6f)
                 {
                     this.ESTADO_AHORA_PJ = EstadosPj.idle;
                 }
-                else 
+                else
                 {
                     this.ESTADO_AHORA_PJ = EstadosPj.MoverArriba;
                 }
@@ -62,11 +62,11 @@ namespace DiggerMax
             else if (Keyboard.IsKeyPressed(Keyboard.Key.S))
             {
                 //Colision Pared Bot
-                if (YPOS_ANIMA > Juego.height - GetIntRect().Height /2.0f)
+                if (YPOS_ANIMA > Juego.height - GetIntRect().Height / 2.0f)
                 {
                     this.ESTADO_AHORA_PJ = EstadosPj.idle;
                 }
-                else 
+                else
                 {
                     this.ESTADO_AHORA_PJ = EstadosPj.MoverAbajo;
                 }
@@ -74,11 +74,11 @@ namespace DiggerMax
             else if (Keyboard.IsKeyPressed(Keyboard.Key.A))
             {
                 //Colision Pared Left
-                if (XPOS_ANIMA < 0.0f - GetIntRect().Width/2.0f)
+                if (XPOS_ANIMA < 0.0f - GetIntRect().Width / 2.0f)
                 {
                     this.ESTADO_AHORA_PJ = EstadosPj.idle;
                 }
-                else 
+                else
                 {
                     this.ESTADO_AHORA_PJ = EstadosPj.MoverIzquierda;
                 }
@@ -90,14 +90,14 @@ namespace DiggerMax
                 {
                     this.ESTADO_AHORA_PJ = EstadosPj.idle;
                 }
-                else 
+                else
                 {
                     this.ESTADO_AHORA_PJ = EstadosPj.MoverDerecha;
                 }
             }
             base.Actualizar(DeltaTime);
         }
-        private void ChequeoMagia() 
+        private void ChequeoMagia()
         {
             //Se toca el boton y debe hacer toda la animacion
             if (Keyboard.IsKeyPressed(Keyboard.Key.M))

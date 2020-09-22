@@ -14,6 +14,14 @@ namespace DiggerMax
         private float tiempoFloat;
         private string secundero;
         public bool ATACO;
+        public bool CONTACTO;
+        public bool HABLAR;
+
+        private Animacion arribaCombate;
+        private Animacion izquierdaCombate;
+        private Animacion abajoCombate;
+        private Animacion derechaCombate;
+
         public Enemigo() : base("Sprite/Zombie.png", 64)
         {
             //Animacion
@@ -22,71 +30,98 @@ namespace DiggerMax
             izquierda = new Animacion(578, 0, 9);
             derecha = new Animacion(704, 0, 9);
             MorirAnim = new Animacion(1280, 0, 6);
+
             //Campos
             clock = new Clock();
             tiempoAtaque = new Text();
             nombre = "ZoMbIe";
             secundero = "";
             ATACO = false;
-            Init();
+            CONTACTO = false;
+            HABLAR = false;
+
+            Inicializar();
+            CargarContenido();
         }
-        public void Init()
+        public override void Inicializar()
         {
-            dialogo = "GRRR!!!";
-            text = new Text(dialogo, fuenteMonstruo);
-            text.FillColor = Color.Transparent;
+            //Dialogo
+            stringVoz = "GRRR!!!";
+            textDialogo = new Text(stringVoz, fuenteMonstruo);
+            textDialogo.FillColor = Color.Transparent;
         }
+
+        public override void CargarContenido()
+        {
+            //Combate
+            arribaCombate = new Animacion(704, 0, 6);
+            izquierdaCombate = new Animacion(768, 0, 6);
+            abajoCombate = new Animacion(832, 0, 6);
+            derechaCombate = new Animacion(896, 0, 6);
+        }
+
         public override void Actualizar(float deltaTiempo)
         {
             //TiempoEnEnemigo
             tiempoFloat = clock.ElapsedTime.AsSeconds();
+
             secundero = "sec " + tiempoFloat.ToString();
             tiempoAtaque = new Text(secundero, fuenteMonstruo);
+            tiempoAtaque.Scale = new Vector2f(0.8f, 0.8f);
             tiempoAtaque.Position = new Vector2f(GetSprite().Position.X - 20, GetSprite().Position.Y + 70);
 
             //dialogo
             var coorDiag = new Vector2f(GetSprite().Position.X + 50, GetSprite().Position.Y + 50);
-            text.Position = coorDiag;
-            ProximoAtaque();
+            textDialogo.Position = coorDiag;
+
+
+            GestionarWarCry();
             base.Actualizar(deltaTiempo);
         }
         public override void Dibujar(RenderWindow ventana)
         {
             ventana.Draw(tiempoAtaque);
-            ventana.Draw(text);
+            ventana.Draw(textDialogo);
             base.Dibujar(ventana);
 
         }
-        private void ProximoAtaque()
+        private void GestionarWarCry()
         {
-            ATACO = false;
-            if (tiempoFloat < 4f)
+            if (!CONTACTO)
             {
-                ATACO = true;
-                text.FillColor = Color.Transparent;
                 return;
             }
             else
             {
-                tiempoAtaque.FillColor = Color.Red;
-                text.CharacterSize = 12;
-                text.FillColor = Color.White;
-                if (tiempoFloat > 5f) 
+                if (tiempoFloat < 4f)
                 {
-                    text.CharacterSize = 18;
+                    textDialogo.FillColor = Color.Transparent;
                 }
-                if (tiempoFloat > 7f)
+                else
                 {
-                    ATACO = true;
-                    text.CharacterSize = 25;
+                    textDialogo.FillColor = Color.White;
+                    textDialogo.CharacterSize = 12;
+                    if (tiempoFloat == 5.0f)
+                    {
+                        ATACO = true;
+                        textDialogo.CharacterSize = 18;
+                    }
+                    else if (tiempoFloat > 7f)
+                    {
+                        ATACO = true;
+                        textDialogo.CharacterSize = 25;
+                    }
+                    else if (tiempoFloat > 10f)
+                    {
+                        ATACO = true;
+                        Time time = clock.Restart();
+                    }
                 }
-                if (tiempoFloat > 10f)
-                {
-                    ATACO = true;
-                    Time time = clock.Restart();
-                }
-
             }
+        }
+        public float GetTempoEnemigo() 
+        {
+            return this.tiempoFloat;
         }
     }
 }

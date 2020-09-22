@@ -59,8 +59,6 @@ namespace DiggerMax
             colorEnem = enemigo.GetSprite().Color;
             textoDamage = new TextoPantalla(enemigo, "");
 
-          
-
             barraDeSaludEne = new BarraDeSalud(enemigo.VIDA, enemigo.VIDAMAX, enemigo);
             barraDeSaludPer = new BarraDeSalud(personaje.VIDA, personaje.VIDAMAX, personaje);
             //PATRON DE CAMINATA
@@ -77,7 +75,7 @@ namespace DiggerMax
         }
         public override void Actualizar(float deltaTiempo, Vector2i posicionRaton)
         {
-            
+
             //En el actualizar del GamePlay un rejunte de los demas actualizar(update),que intervienen en el play*/
             personaje.Actualizar(deltaTiempo);
             enemigo.Actualizar(deltaTiempo);
@@ -89,13 +87,16 @@ namespace DiggerMax
             barraDeSaludEne.Update(deltaTiempo);
             barraDeSaludPer.Update(deltaTiempo);
 
+            //texto de colision
             string coli = seChocan.ToString();
             textColision = new Text(coli, font);
-            seChocan =ChocarEnemigo(deltaTiempo);
+            textColision.Scale = new Vector2f(0.8f, 0.8f);
             Vector2f enemigoPosicion = new Vector2f(enemigo.XPOS_ANIMA, enemigo.YPOS_ANIMA - 70);
             textColision.Position = enemigoPosicion;
 
-            Combate(seChocan);
+            seChocan = ChequeoColision(deltaTiempo);
+
+            Luchar(seChocan);
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -175,7 +176,7 @@ namespace DiggerMax
                     break;
             }
         }
-        private bool ChocarEnemigo(float deltaTiempo)
+        private bool ChequeoColision(float deltaTiempo)
         {
             FloatRect per = personaje.GetSprite().GetGlobalBounds();
             FloatRect enem = enemigo.GetSprite().GetGlobalBounds();
@@ -185,6 +186,7 @@ namespace DiggerMax
             if (per.Intersects(enem))
             {
                 Clock tiempoCombate = new Clock();
+                enemigo.CONTACTO = true;
                 isActivo = true;
                 seChocan = true;
                 DondeChocaPj(estadoPj, deltaTiempo);
@@ -259,7 +261,7 @@ namespace DiggerMax
             //logica
             enemigo.ESTADO_AHORA_PJ = EstadosPj.Morir;
         }
-        private void Combate(bool seChocan)
+        private void Luchar(bool seChocan)
         {
             if (!seChocan)
             {
@@ -267,30 +269,29 @@ namespace DiggerMax
             }
             else
             {
-                //quien pega primero?
-                if (!isGolpe)
+                //enemy attack frequency
+                if (!enemigo.ATACO)
                 {
                     return;
                 }
-                else if(enemigo.ATACO)
+                else 
                 {
-                    personaje.VIDA -= enemigo.DANIO;
-                    if (personaje.VIDA < 0)
-                    {
-                        personaje.VIDA = 0;
-                    }
+                    personaje.VIDA = personaje.VIDA - enemigo.DANIO;
                     barraDeSaludPer.UpdateSalud(personaje.VIDA, personaje.VIDAMAX);
-                }
-                
-                {
-                    enemigo.VIDA -= personaje.DANIO;
-                    if (enemigo.VIDA < 0)
-                    {
-                        enemigo.VIDA = 0;
-                    }
-                    barraDeSaludEne.UpdateSalud(enemigo.VIDA, enemigo.VIDAMAX);
+                    enemigo.ATACO = false;
                 }
             }
+            //chequeo bbarras de vida
+            if (personaje.VIDA < 0)
+            {
+                personaje.VIDA = 0;
+            }
+            else if (enemigo.VIDA < 0)
+            {
+                enemigo.VIDA = 0;
+            }
+            
+            barraDeSaludEne.UpdateSalud(enemigo.VIDA, enemigo.VIDAMAX);
         }
         public override void Destruir()
         {
