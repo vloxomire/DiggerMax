@@ -9,9 +9,10 @@ namespace DiggerMax
 {
     class Enemigo : AnimaIA
     {
-        private Clock clock;
+        private Clock enemyTime;
         private Text tiempoAtaque;
         private float tiempoFloat;
+        public float NEXTATTACK;
         private string secundero;
         public bool ATACO;
         public bool CONTACTO;
@@ -32,7 +33,7 @@ namespace DiggerMax
             MorirAnim = new Animacion(1280, 0, 6);
 
             //Campos
-            clock = new Clock();
+            enemyTime = new Clock();
             tiempoAtaque = new Text();
             nombre = "ZoMbIe";
             secundero = "";
@@ -49,6 +50,8 @@ namespace DiggerMax
             stringVoz = "GRRR!!!";
             textDialogo = new Text(stringVoz, fuenteMonstruo);
             textDialogo.FillColor = Color.Transparent;
+
+            NEXTATTACK=3f;
         }
 
         public override void CargarContenido()
@@ -63,7 +66,7 @@ namespace DiggerMax
         public override void Actualizar(float deltaTiempo)
         {
             //TiempoEnEnemigo
-            tiempoFloat = clock.ElapsedTime.AsSeconds();
+            tiempoFloat = enemyTime.ElapsedTime.AsSeconds();
 
             secundero = "sec " + tiempoFloat.ToString();
             tiempoAtaque = new Text(secundero, fuenteMonstruo);
@@ -76,6 +79,13 @@ namespace DiggerMax
 
 
             GestionarWarCry();
+
+            /*if (time.time > _atackTimer)
+            {
+                atack();
+                _atacktimer += atackDelay
+            }*/
+            
             base.Actualizar(deltaTiempo);
         }
         public override void Dibujar(RenderWindow ventana)
@@ -85,13 +95,12 @@ namespace DiggerMax
             base.Dibujar(ventana);
 
         }
+        private void Attack() 
+        {
+           
+        }
         private void GestionarWarCry()
         {
-            if (!CONTACTO)
-            {
-                return;
-            }
-            else
             {
                 if (tiempoFloat < 4f)
                 {
@@ -101,20 +110,17 @@ namespace DiggerMax
                 {
                     textDialogo.FillColor = Color.White;
                     textDialogo.CharacterSize = 12;
-                    if (tiempoFloat == 5.0f)
+                    if (tiempoFloat > 5.0f)
                     {
-                        ATACO = true;
                         textDialogo.CharacterSize = 18;
                     }
-                    else if (tiempoFloat > 7f)
+                    if (tiempoFloat > 7f)
                     {
-                        ATACO = true;
                         textDialogo.CharacterSize = 25;
                     }
-                    else if (tiempoFloat > 10f)
+                    if (tiempoFloat > 10f)
                     {
-                        ATACO = true;
-                        Time time = clock.Restart();
+                        Time time = enemyTime.Restart();
                     }
                 }
             }
@@ -122,6 +128,10 @@ namespace DiggerMax
         public float GetTempoEnemigo() 
         {
             return this.tiempoFloat;
+        }
+        public Clock GetClock() 
+        {
+            return enemyTime;
         }
     }
 }

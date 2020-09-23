@@ -57,7 +57,7 @@ namespace DiggerMax
             clock = new Clock();
             VIDAMAX = 25;
             VIDA = VIDAMAX;
-            DANIO = 2;
+            DANIO = 5;
             fuenteMonstruo = new Font("Fuentes/NightOfTheDeads.ttf");
             Time tiempo = clock.Restart();
             textDialogo = new Text();

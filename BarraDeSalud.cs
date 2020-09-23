@@ -55,15 +55,15 @@ namespace DiggerMax
             corazonSprite.Origin = new Vector2f(corazonSprite.GetGlobalBounds().Width / 2, corazonSprite.GetGlobalBounds().Height / 2);
             corazonSprite.Scale = new Vector2f(0.5f, 0.5f);
         }
-        public void Update(float deltaTime)
+        public void Update(float deltaTime,Anima anima)
         {
             //posiicones de las barras
             barraRoja.Position = new Vector2f(anima.XPOS_ANIMA, anima.YPOS_ANIMA);
             barraVerde.Position = new Vector2f(anima.XPOS_ANIMA, anima.YPOS_ANIMA);
+            
             //Corazon
             corazonPosicion = new Vector2f(anima.XPOS_ANIMA, anima.YPOS_ANIMA);
             corazonSprite.Position = corazonPosicion;
-
             //Corazon Animacion
             if (relog.ElapsedTime.AsSeconds() > velAnimCorz)
             {
@@ -83,6 +83,8 @@ namespace DiggerMax
             }
             corazonSprite.TextureRect = corazonRect;
 
+            UpdateBarraSaludAncho();
+
             if (saludDeseada == saludActual)
             { return; }
             /*if (saludDeseada < saludActual)
@@ -94,7 +96,7 @@ namespace DiggerMax
             {
                 saludActual = 0;
             }
-            UpdateBarraSaludAncho();
+            
         }
         public void Draw(RenderWindow ventana, Vector2f posicion)
         {
@@ -109,7 +111,7 @@ namespace DiggerMax
         }
         public void UpdateEstadoSalud()
         {
-            //En un futuro usar sprite
+            //En un futuro usar sprite,se acelera la velocidad del corazon
             float porcentaje = saludActual / saludMaxima;
             if (porcentaje < 0.2)
             {

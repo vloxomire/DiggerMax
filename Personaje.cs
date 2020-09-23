@@ -30,7 +30,7 @@ namespace DiggerMax
             MorirAnim = new Animacion(1280, 0, 6);
             LevantarseAnim = new Animacion(1280, 192, 6);//ARREGLAR,No cambia el numero de izquierda
 
-            VIDAMAX = 550;
+            VIDAMAX = 35;
             velocidadDeMover = 400;//150
             velocidadDeAnimacion = 0.05f;
 
@@ -39,6 +39,7 @@ namespace DiggerMax
         }
         public override void Actualizar(float DeltaTime)
         {
+            //hacer update de la barra de vida
             this.ESTADO_AHORA_PJ = EstadosPj.idle;
             //Si se toca el click izquierdo del mouse ataca
             ChequeoMorirLevantarse();

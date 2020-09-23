@@ -73,6 +73,7 @@ namespace DiggerMax
             text.Position = new Vector2f(0, 0);
 
         }
+
         public override void Actualizar(float deltaTiempo, Vector2i posicionRaton)
         {
 
@@ -84,8 +85,7 @@ namespace DiggerMax
             string vidaData = enemigo.VIDA.ToString();
             textoDamage.Actualizar(deltaTiempo, vidaData, isActivo, personaje, enemigo);
 
-            barraDeSaludEne.Update(deltaTiempo);
-            barraDeSaludPer.Update(deltaTiempo);
+         
 
             //texto de colision
             string coli = seChocan.ToString();
@@ -95,8 +95,19 @@ namespace DiggerMax
             textColision.Position = enemigoPosicion;
 
             seChocan = ChequeoColision(deltaTiempo);
+            if (seChocan && enemigo.GetClock().ElapsedTime.AsSeconds() > enemigo.NEXTATTACK)
+            {
+                personaje.VIDA -= enemigo.DANIO;
+                enemigo.NEXTATTACK += enemigo.NEXTATTACK;
 
-            Luchar(seChocan);
+                if (enemigo.GetClock().ElapsedTime.AsSeconds() > 10)
+                {
+                    enemigo.NEXTATTACK = 2;
+                }
+            }
+            barraDeSaludEne.Update(deltaTiempo,enemigo);
+            barraDeSaludPer.Update(deltaTiempo,personaje);
+            //Luchar(seChocan);
         }
         public override void Dibujar(RenderWindow ventana)
         {
