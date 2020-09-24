@@ -97,12 +97,16 @@ namespace DiggerMax
             seChocan = ChequeoColision(deltaTiempo);
             if (seChocan && enemigo.GetClock().ElapsedTime.AsSeconds() > enemigo.NEXTATTACK)
             {
-                personaje.VIDA -= enemigo.DANIO;
-                enemigo.NEXTATTACK += enemigo.NEXTATTACK;
+                Console.WriteLine("VidaPj:" + personaje.VIDA);
+                personaje.RecibeDano(enemigo.DANIO);
+                Console.WriteLine("VidaPj:" + personaje.VIDA);
+                Console.WriteLine("NextAttack:" + enemigo.NEXTATTACK);
+                enemigo.NEXTATTACK += 3;
+                Console.WriteLine("NextAttack:" + enemigo.NEXTATTACK);
 
                 if (enemigo.GetClock().ElapsedTime.AsSeconds() > 10)
                 {
-                    enemigo.NEXTATTACK = 2;
+                    enemigo.NEXTATTACK = 0;
                 }
             }
             barraDeSaludEne.Update(deltaTiempo,enemigo);
@@ -212,12 +216,9 @@ namespace DiggerMax
         }
         private void TeclasAtaque(EstadosPj estadosPj, float deltaTiempo)
         {
-            //tendria 2 subfunciones una para atq de pj y otro monster
             if (!Keyboard.IsKeyPressed(Keyboard.Key.R))
             {
                 enemigo.GetSprite().Color = colorEnem;
-                isGolpe = false;
-                //danioInfo.FillColor = Color.Transparent;
             }
             else
             {
@@ -245,12 +246,9 @@ namespace DiggerMax
                     }
                     personaje.Actualizar(deltaTiempo);
                 }
-
-
                 enemigo.GetSprite().Color = Color.Red;
-                isGolpe = true;
-                //Pregunto por vida, si enemigo esta en 0 o meno poder rematarlo, con un boole para saber?
-                Rematar(enemigo, EstaMuerto(enemigo));
+                enemigo.RecibeDano(personaje.DANIO);
+                //Rematar(enemigo, EstaMuerto(enemigo));
             }
         }
         private bool EstaMuerto(Anima anima)

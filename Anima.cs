@@ -55,7 +55,7 @@ namespace DiggerMax
             spriteRect = new IntRect(0, 0, tamanioDelFrame, tamanioDelFrame);
             sprite = new Sprite(new Texture(nombreDelArchivo), spriteRect);
             clock = new Clock();
-            VIDAMAX = 25;
+            VIDAMAX = 40;
             VIDA = VIDAMAX;
             DANIO = 5;
             fuenteMonstruo = new Font("Fuentes/NightOfTheDeads.ttf");
@@ -162,6 +162,15 @@ namespace DiggerMax
         public void SetNombre(string nombre) 
         {
             this.nombre = nombre;
+        }
+
+        public void RecibeDano(int dano) 
+        {
+            VIDA -= dano;
+            if (VIDA < 0) 
+            {
+                VIDA = 0;
+            }
         }
     }
 }
