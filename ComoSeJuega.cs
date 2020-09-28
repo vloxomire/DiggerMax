@@ -97,6 +97,14 @@ namespace DiggerMax
             seChocan = ChequeoColision(deltaTiempo);
             if (seChocan && enemigo.GetClock().ElapsedTime.AsSeconds() > enemigo.NEXTATTACK)
             {
+                //de donde es la colision
+                /*switch ()
+                {
+                    case 
+                    default:
+                }*/
+
+                //enemigo.ESTADO_AHORA_PJ=EstadosPj.
                 Console.WriteLine("VidaPj:" + personaje.VIDA);
                 personaje.RecibeDano(enemigo.DANIO);
                 Console.WriteLine("VidaPj:" + personaje.VIDA);

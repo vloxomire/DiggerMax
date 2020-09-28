@@ -42,8 +42,10 @@ namespace DiggerMax
                 FillColor = Color.Blue
             };*/
             Sonido.PlaySonido();
+            //SE ELEIJE LA ESCENA MOSTRAR
             //GerenteDeEscena.CargarEscena(new Menu());
-            GerenteDeEscena.CargarEscena(new ComoSeJuega());
+            //GerenteDeEscena.CargarEscena(new ComoSeJuega());
+            GerenteDeEscena.CargarEscena(new Test());
 
             while (ventana.IsOpen)
             {

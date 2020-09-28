@@ -56,12 +56,12 @@ namespace DiggerMax
 
         public override void CargarContenido()
         {
-            //Combate
-            arribaCombate = new Animacion(704, 0, 6);
-            izquierdaCombate = new Animacion(768, 0, 6);
-            abajoCombate = new Animacion(832, 0, 6);
-            derechaCombate = new Animacion(896, 0, 6);
-        }
+            //Ataque
+            atqArb = new Animacion(704, 0, 6);
+            atqIzq = new Animacion(768, 0, 6);
+            atqAbj = new Animacion(832, 0, 6);
+            atqDer = new Animacion(896, 0, 6);
+    }
 
         public override void Actualizar(float deltaTiempo)
         {
