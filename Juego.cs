@@ -43,9 +43,9 @@ namespace DiggerMax
             };*/
             Sonido.PlaySonido();
             //SE ELEIJE LA ESCENA MOSTRAR
-            //GerenteDeEscena.CargarEscena(new Menu());
+            GerenteDeEscena.CargarEscena(new Menu());
             //GerenteDeEscena.CargarEscena(new ComoSeJuega());
-            GerenteDeEscena.CargarEscena(new Test());
+            //GerenteDeEscena.CargarEscena(new Test());
 
             while (ventana.IsOpen)
             {

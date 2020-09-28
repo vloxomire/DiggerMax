@@ -82,7 +82,7 @@ namespace DiggerMax
             if (c1.GetGlobalBounds().Intersects(c2.GetGlobalBounds()))
             {
                 c1.FillColor = Color.Green;
-                c1.Position.X =
+                //c1.Position.X =
             }
             else
             {

@@ -8,14 +8,34 @@ namespace DiggerMax
 {
     class Menu : Escena
     {
-        Sprite fondo,bNuevo, bCargar, bCreditos, bSalir;
+        Sprite fondo, bNuevo, bCargar, bCreditos, bSalir, portal1, portal2;
+        //ojo que es un sprite rect
+        FloatRect [] spriteArray=new Sprite[4];
+        public Menu()
+        {
+            //Iniciliazador de  boton portal
+            Texture textura;
+            for (int i = 0; i < 4; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    textura=new Texture("Sprite/portal1.png");
+                }
+                else
+                {
+                    textura=new Texture("Sprite/portal2.png");
+                }
+                spriteArray[i] = new Sprite(textura);
+            }
+            
+        }
         public override void Inicio()
         {
             fondo = new Sprite(new Texture("Sprite/juego.png"));
 
             bNuevo = new Sprite(new Texture("sprite/boton1.png"));
             bNuevo.Origin = new Vector2f(bNuevo.GetGlobalBounds().Width / 2.0f, bNuevo.GetGlobalBounds().Height / 2.0f);
-            bNuevo.Position = new Vector2f(30.0f,Juego.height/2.0f);
+            //bNuevo.Position = new Vector2f(30.0f, Juego.height / 2.0f);
 
             bCargar = new Sprite(new Texture("sprite/boton2.png"));
             bCargar.Color = Color.Black;
@@ -31,24 +51,25 @@ namespace DiggerMax
             bSalir.Color = Color.Red;
             bSalir.Origin = new Vector2f(bSalir.GetGlobalBounds().Width / 2.0f, bSalir.GetGlobalBounds().Height / 2.0f);
             bSalir.Position = new Vector2f(600.0f, Juego.height / 2.0f);
+            CargarContenido();
         }
         public override void Actualizar(float DeltaTime, Vector2i posicionRaton)
         {
             if (Mouse.IsButtonPressed(Mouse.Button.Left))
             {
-                if (bNuevo.GetGlobalBounds().Contains(posicionRaton.X,posicionRaton.Y))
+                if (bNuevo.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
                 {
                     GerenteDeEscena.CargarEscena(new ComoSeJuega());
                 }
                 if (bCargar.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
                 {
-                    
+
                 }
-                if (bCreditos.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y)) 
+                if (bCreditos.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
                 {
                     GerenteDeEscena.CargarEscena(new Creditos());
                 }
-                if (bSalir.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y)) 
+                if (bSalir.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
                 {
                 }
             }
@@ -60,10 +81,17 @@ namespace DiggerMax
             ventana.Draw(bCargar);
             ventana.Draw(bCreditos);
             ventana.Draw(bSalir);
+            ventana.Draw(spriteArray[0]);
         }
         public override void Destruir()
         {
-         
+
         }
+        private void CargarContenido()
+        {
+          
+            spriteArray[0].Position= new Vector2f(30.0f, Juego.height / 2.0f);
+        }
+   
     }
 }
