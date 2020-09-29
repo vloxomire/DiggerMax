@@ -13,9 +13,9 @@ namespace DiggerMax
         private EstadosPortal portalAhora;
         private bool textoBooolNewGame;
         private Text textNewGame;
-        private RectangleShape textRectangulo;
+        private RectangleShape textRectangulo,txtRecCred,txtRecExit;
         private Clock tiempo;
-        private Sprite spritePortal;
+        private Sprite spritePortal, spritePortalCredit, spritePortalExit;
         private IntRect rect;
         private Animacion portalAnimado;
         private Animacion fisura01;
@@ -106,6 +106,9 @@ namespace DiggerMax
         {
             ventana.Draw(fondo);
             ventana.Draw(spritePortal);
+            ventana.Draw(spritePortalCredit);
+            ventana.Draw(spritePortalExit);
+
             if (!textoBooolNewGame)
             { return; }
             else 
@@ -145,6 +148,45 @@ namespace DiggerMax
             {
                 FillColor = new SFML.Graphics.Color(SFML.Graphics.Color.White),
                 Position = new Vector2f(textRectangulo.Position.X + 10, textRectangulo.Position.Y + 5),
+            };
+            //********************************************************************
+            //CREDITS
+            spritePortalCredit = new Sprite(new Texture("Sprite/portal1.png"), rect)
+            {
+                Position = new Vector2f(290, 420),
+                Color = new SFML.Graphics.Color(SFML.Graphics.Color.Magenta),
+            };
+            txtRecCred = new RectangleShape(new Vector2f(150, 50))
+            {
+                Position = new Vector2f(spritePortalCredit.Position.X + 20, spritePortalCredit.Position.Y - 50),
+                //System y Graphic utilizan "Color" OMG
+                FillColor = new SFML.Graphics.Color(SFML.Graphics.Color.Black),
+            };
+
+            textNewGame = new Text("New game", new Font("Fuentes/Mariokart.ttf"))
+            {
+                FillColor = new SFML.Graphics.Color(SFML.Graphics.Color.White),
+                Position = new Vector2f(txtRecCred.Position.X + 10, txtRecCred.Position.Y + 5),
+            };
+            //********************************************************************
+            //EXIT
+            spritePortalExit = new Sprite(new Texture("Sprite/portal1.png"), rect)
+            {
+                Position = new Vector2f(560, 290),
+                Color = new SFML.Graphics.Color(SFML.Graphics.Color.Red),
+            };
+
+            txtRecExit = new RectangleShape(new Vector2f(150, 50))
+            {
+                Position = new Vector2f(spritePortalExit.Position.X + 20, spritePortalExit.Position.Y - 50),
+                //System y Graphic utilizan "Color" OMG
+                FillColor = new SFML.Graphics.Color(SFML.Graphics.Color.Black),
+            };
+
+            textNewGame = new Text("New game", new Font("Fuentes/Mariokart.ttf"))
+            {
+                FillColor = new SFML.Graphics.Color(SFML.Graphics.Color.White),
+                Position = new Vector2f(txtRecExit.Position.X + 10, txtRecExit.Position.Y + 5),
             };
         }
 
