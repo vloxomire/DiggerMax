@@ -2,66 +2,55 @@
 using SFML.System;
 using SFML.Window;
 using System;
-
+using System.Drawing;
 
 namespace DiggerMax
 {
     class Menu : Escena
     {
         Sprite fondo, bNuevo, bCargar, bCreditos, bSalir, portal1, portal2;
-        //ojo que es un sprite rect
-        FloatRect [] spriteArray=new Sprite[4];
+        public enum EstadosPortal { Apertura, Transicion, Colapso, Cierre };
+        private EstadosPortal portalAhora;
+        private bool textoBooolNewGame;
+        private Text textNewGame;
+        private RectangleShape textRectangulo;
+        private Clock tiempo;
+        private Sprite spritePortal;
+        private IntRect rect;
+        private Animacion portalAnimado;
+        private Animacion fisura01;
+        private Animacion fisura02;
+        private Animacion fisura03;
+        private Animacion fisura04;
+        private float velocidadAnimacion;
         public Menu()
         {
-            //Iniciliazador de  boton portal
-            Texture textura;
-            for (int i = 0; i < 4; i++)
-            {
-                if (i % 2 == 0)
-                {
-                    textura=new Texture("Sprite/portal1.png");
-                }
-                else
-                {
-                    textura=new Texture("Sprite/portal2.png");
-                }
-                spriteArray[i] = new Sprite(textura);
-            }
-            
+            textoBooolNewGame = false;
+            velocidadAnimacion =0.3f;
         }
         public override void Inicio()
         {
-            fondo = new Sprite(new Texture("Sprite/juego.png"));
-
-            bNuevo = new Sprite(new Texture("sprite/boton1.png"));
-            bNuevo.Origin = new Vector2f(bNuevo.GetGlobalBounds().Width / 2.0f, bNuevo.GetGlobalBounds().Height / 2.0f);
-            //bNuevo.Position = new Vector2f(30.0f, Juego.height / 2.0f);
-
-            bCargar = new Sprite(new Texture("sprite/boton2.png"));
-            bCargar.Color = Color.Black;
-            bCargar.Origin = new Vector2f(bCargar.GetGlobalBounds().Width / 2.0f, bCargar.GetGlobalBounds().Height / 2.0f);
-            bCargar.Position = new Vector2f(200.0f, Juego.height / 2.0f);
-
-            bCreditos = new Sprite(new Texture("sprite/boton3.png"));
-            bCreditos.Color = Color.Blue;
-            bCreditos.Origin = new Vector2f(bCreditos.GetGlobalBounds().Width / 2.0f, bCreditos.GetGlobalBounds().Height / 2.0f);
-            bCreditos.Position = new Vector2f(400.0f, Juego.height / 2.0f);
-
-            bSalir = new Sprite(new Texture("sprite/boton4.png"));
-            bSalir.Color = Color.Red;
-            bSalir.Origin = new Vector2f(bSalir.GetGlobalBounds().Width / 2.0f, bSalir.GetGlobalBounds().Height / 2.0f);
-            bSalir.Position = new Vector2f(600.0f, Juego.height / 2.0f);
+            tiempo = new Clock();
+            
             CargarContenido();
         }
         public override void Actualizar(float DeltaTime, Vector2i posicionRaton)
         {
+            if (spritePortal.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
+            {
+                textoBooolNewGame = true;
+            }
+            else 
+            {
+                textoBooolNewGame = false;
+            }
             if (Mouse.IsButtonPressed(Mouse.Button.Left))
             {
-                if (bNuevo.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
+                if (spritePortal.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
                 {
                     GerenteDeEscena.CargarEscena(new ComoSeJuega());
                 }
-                if (bCargar.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
+                /*if (bCargar.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
                 {
 
                 }
@@ -71,27 +60,93 @@ namespace DiggerMax
                 }
                 if (bSalir.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
                 {
-                }
+                }*/
             }
+            //Animacion
+
+            if (tiempo.ElapsedTime.AsSeconds() > velocidadAnimacion)
+            {
+                if (portalAnimado != null)
+                {
+                    rect.Top = portalAnimado.setArriba;
+                    if (rect.Left == (portalAnimado.numeroDeFrames - 1) * 32)
+                    {
+                        rect.Left = 0;
+                    }
+                    else
+                    {
+                        rect.Left += 32;
+                    }
+                }
+                tiempo.Restart();
+            }
+            spritePortal.TextureRect = rect;
+            switch (portalAhora)
+            {
+                case EstadosPortal.Apertura:
+                    portalAnimado = fisura02;
+                    portalAhora = EstadosPortal.Transicion;
+                    break;
+                case EstadosPortal.Transicion:
+                    portalAnimado = fisura03;
+                    portalAhora = EstadosPortal.Colapso;
+                    break;
+                case EstadosPortal.Colapso:
+                    portalAnimado = fisura04;
+                    portalAhora = EstadosPortal.Cierre;
+                    break;
+                case EstadosPortal.Cierre:
+                    portalAnimado = fisura01;
+                    portalAhora = EstadosPortal.Apertura;
+                    break;
+            }
+            
         }
         public override void Dibujar(RenderWindow ventana)
         {
             ventana.Draw(fondo);
-            ventana.Draw(bNuevo);
-            ventana.Draw(bCargar);
-            ventana.Draw(bCreditos);
-            ventana.Draw(bSalir);
-            ventana.Draw(spriteArray[0]);
+            ventana.Draw(spritePortal);
+            if (!textoBooolNewGame)
+            { return; }
+            else 
+            {
+                ventana.Draw(textRectangulo);
+                ventana.Draw(textNewGame);
+            }
         }
         public override void Destruir()
         {
-
+            Console.WriteLine("Hola soy el destructor del menu");
         }
         private void CargarContenido()
         {
-          
-            spriteArray[0].Position= new Vector2f(30.0f, Juego.height / 2.0f);
+            fondo = new Sprite(new Texture("Sprite/juego.jpg"));
+            rect = new IntRect(0, 0, 31, 32);
+            fisura01 = new Animacion(0, 0, 3);
+            fisura02 = new Animacion(32, 0, 3);
+            fisura03 = new Animacion(64, 0, 3);
+            fisura04 = new Animacion(96, 0, 3);
+
+            spritePortal = new Sprite(new Texture("Sprite/portal1.png"), rect)
+            {
+                Position = new Vector2f(35, 270),
+            };
+            portalAhora = EstadosPortal.Apertura;
+            portalAnimado = fisura01;
+
+            textRectangulo = new RectangleShape(new Vector2f(150, 50))
+            {
+                Position = new Vector2f(spritePortal.Position.X + 20, spritePortal.Position.Y -50),
+                //System y Graphic utilizan "Color" OMG
+                FillColor = new SFML.Graphics.Color(SFML.Graphics.Color.Black),
+            };
+
+            textNewGame = new Text("New game", new Font("Fuentes/Mariokart.ttf"))
+            {
+                FillColor = new SFML.Graphics.Color(SFML.Graphics.Color.White),
+                Position = new Vector2f(textRectangulo.Position.X + 10, textRectangulo.Position.Y + 5),
+            };
         }
-   
+
     }
 }

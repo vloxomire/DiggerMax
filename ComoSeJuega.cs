@@ -132,7 +132,7 @@ namespace DiggerMax
             //COLISIONES
             enemigo.Dibujar(ventana);
             textoDamage.Draw(ventana);
-            ventana.Draw(textColision);
+            //ventana.Draw(textColision);
             barraDeSaludEne.Draw(ventana, new Vector2f(enemigo.XPOS_ANIMA, enemigo.YPOS_ANIMA + 10f));
             barraDeSaludPer.Draw(ventana, new Vector2f(personaje.XPOS_ANIMA, personaje.YPOS_ANIMA + 10f));
         }

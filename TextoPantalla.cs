@@ -63,8 +63,17 @@ namespace DiggerMax
         {
 
             ventana.Draw(text);
-            ventana.Draw(nombreTexto1);
-            ventana.Draw(nombreTexto2);
+            try
+            {
+                //ventana.Draw(nombreTexto1);
+                ventana.Draw(nombreTexto2);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            } 
+
         }
         public void SetMensaje(string mensaje)
         {
