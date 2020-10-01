@@ -67,7 +67,6 @@ namespace DiggerMax
         {
             //TiempoEnEnemigo
             tiempoFloat = enemyTime.ElapsedTime.AsSeconds();
-
             secundero = "sec " + tiempoFloat.ToString();
             tiempoAtaque = new Text(secundero, fuenteMonstruo);
             tiempoAtaque.Scale = new Vector2f(0.8f, 0.8f);
@@ -76,16 +75,7 @@ namespace DiggerMax
             //dialogo
             var coorDiag = new Vector2f(GetSprite().Position.X + 50, GetSprite().Position.Y + 50);
             textDialogo.Position = coorDiag;
-
-
             GestionarWarCry();
-
-            /*if (time.time > _atackTimer)
-            {
-                atack();
-                _atacktimer += atackDelay
-            }*/
-            
             base.Actualizar(deltaTiempo);
         }
         public override void Dibujar(RenderWindow ventana)
@@ -118,7 +108,7 @@ namespace DiggerMax
                     {
                         textDialogo.CharacterSize = 25;
                     }
-                    if (tiempoFloat > 11f)
+                    if (tiempoFloat > 13f)
                     {
                         Time time = enemyTime.Restart();
                     }

@@ -1,6 +1,7 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+
 using System;
 using System.Drawing;
 
@@ -34,7 +35,6 @@ namespace DiggerMax
         public override void Inicio()
         {
             tiempo = new Clock();
-            
             CargarContenido();
         }
         public override void Actualizar(float DeltaTime, Vector2i posicionRaton)
@@ -69,6 +69,8 @@ namespace DiggerMax
             {
                 if (spriteNewGame.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
                 {
+                    Musica.musicaInstancia.DetenerSonido();
+                    Musica.musicaInstancia.GestorSonido(2);
                     GerenteDeEscena.CargarEscena(new ComoSeJuega());
                 }
 
@@ -229,6 +231,5 @@ namespace DiggerMax
                 Position = new Vector2f(txtRecExit.Position.X +5, txtRecExit.Position.Y + 5),
             };
         }
-
     }
 }

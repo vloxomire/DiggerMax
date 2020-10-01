@@ -79,14 +79,14 @@ namespace DiggerMax
             text.Position = new Vector2f(0, 0);
 
             //avizo GameOver
-            rectGameOver = new RectangleShape(new Vector2f(100f, 100f))
+            rectGameOver = new RectangleShape(new Vector2f(300f, 100f))
             {
                 FillColor = Color.Black,
-                Position=new Vector2f(personaje.XPOS_ANIMA,personaje.YPOS_ANIMA),
+                
             };
-            txtGameOver = new Text("GAME OVER, viejo!!!", font)
+            txtGameOver = new Text("GAME OVER viejo!!!", font)
             {
-                Position = new Vector2f(rectGameOver.Position.X +5,rectGameOver.Position.Y +5),
+                
             };
             
         }
@@ -138,7 +138,8 @@ namespace DiggerMax
             barraDeSaludPer.Update(deltaTiempo,personaje);
             //Verifico resultados
             GestorVidas();
-   
+            rectGameOver.Position = new Vector2f(personaje.XPOS_ANIMA + 5, personaje.YPOS_ANIMA + 5);
+            txtGameOver.Position = new Vector2f(personaje.XPOS_ANIMA + 5, personaje.YPOS_ANIMA + 5 / 2);
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -338,7 +339,7 @@ namespace DiggerMax
                     boolActivarTiempoGameOver = true;
                     boolDibujarGameOver = true;
                 }
-                if (tiempoGameOver.ElapsedTime.AsSeconds() >5)
+                if (tiempoGameOver.ElapsedTime.AsSeconds() >3)
                 {
                     boolCerraVentana = true;
                 }

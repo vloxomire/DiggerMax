@@ -12,7 +12,7 @@ namespace DiggerMax
     class Juego
     {
         public static Juego instancia;
-
+        private Musica musica;
         private RenderWindow ventana;
         private Clock clock;
         private Sprite raton = null;
@@ -22,7 +22,7 @@ namespace DiggerMax
         public Juego()
         {
             instancia = this;
-
+            musica = new Musica();
             const string tituloVentana = "Digger";
             ventana = new RenderWindow(new VideoMode(width, height),tituloVentana);
             ventana.SetFramerateLimit(61);
@@ -38,6 +38,7 @@ namespace DiggerMax
         public void Correr()
         {
             Sonido.PlaySonido();
+            musica.GestorSonido(1);
             //SE ELEIJE LA ESCENA MOSTRAR
             GerenteDeEscena.CargarEscena(new Menu());
             //GerenteDeEscena.CargarEscena(new ComoSeJuega());

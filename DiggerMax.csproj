@@ -25,6 +25,12 @@
     <None Update="Mapas\terrain.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Recursos\codex2015.ogg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Recursos\doom.ogg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Sprite\flames.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
