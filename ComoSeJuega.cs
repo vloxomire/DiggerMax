@@ -26,10 +26,13 @@ namespace DiggerMax
         private View camara;//camara
         private Color colorPj;
         private Color colorEnem;
+        private RectangleShape rectGameOver;
         private Font fuente;
-        private Text text, textColision;
+        private Text text, textColision,txtGameOver;
         Font font = new Font("Fuentes/MarioKart.ttf");
         private string tempo;
+        private Clock tiempoGameOver;
+        private bool boolActivarTiempoGameOver, boolDibujarGameOver, boolCerraVentana;
         public ComoSeJuega()
         {
             colorPj = new Color();
@@ -38,6 +41,9 @@ namespace DiggerMax
             isActivo = false;
             seChocan = false;
             isGolpe = false;
+            boolActivarTiempoGameOver=false;
+            boolDibujarGameOver = false;
+            boolCerraVentana = false;
         }
         public override void Inicio()
         {
@@ -72,6 +78,17 @@ namespace DiggerMax
             text = new Text(tempo, font);
             text.Position = new Vector2f(0, 0);
 
+            //avizo GameOver
+            rectGameOver = new RectangleShape(new Vector2f(100f, 100f))
+            {
+                FillColor = Color.Black,
+                Position=new Vector2f(personaje.XPOS_ANIMA,personaje.YPOS_ANIMA),
+            };
+            txtGameOver = new Text("GAME OVER, viejo!!!", font)
+            {
+                Position = new Vector2f(rectGameOver.Position.X +5,rectGameOver.Position.Y +5),
+            };
+            
         }
 
         public override void Actualizar(float deltaTiempo, Vector2i posicionRaton)
@@ -120,13 +137,8 @@ namespace DiggerMax
             barraDeSaludEne.Update(deltaTiempo,enemigo);
             barraDeSaludPer.Update(deltaTiempo,personaje);
             //Verifico resultados
-            GestorVidasPjyNpc();
-            if (EstaMuertoPj(personaje))
-            {
-
-            }
-            
-
+            GestorVidas();
+   
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -142,6 +154,9 @@ namespace DiggerMax
             //ventana.Draw(textColision);
             barraDeSaludEne.Draw(ventana, new Vector2f(enemigo.XPOS_ANIMA, enemigo.YPOS_ANIMA + 10f));
             barraDeSaludPer.Draw(ventana, new Vector2f(personaje.XPOS_ANIMA, personaje.YPOS_ANIMA + 10f));
+            //ventanaGameOver
+            DibujarGameOver(ventana);
+            CerrarVentana(ventana);
         }
         private void NoCaerALaLava(float deltaTiempo)
         {
@@ -313,23 +328,36 @@ namespace DiggerMax
         {
             throw new NotImplementedException();
         }
-        private void GestorVidasPjyNpc() 
+        private void GestorVidas() 
         {
-            private bool EstaMuertoPj(Anima anima)
+            if (!personaje.EstaVivo(personaje)) 
             {
-                if (anima.VIDA >= 0)
+                if (!boolActivarTiempoGameOver)
                 {
-                    return false;
+                    tiempoGameOver = new Clock();
+                    boolActivarTiempoGameOver = true;
+                    boolDibujarGameOver = true;
                 }
-                return true;
+                if (tiempoGameOver.ElapsedTime.AsSeconds() >5)
+                {
+                    boolCerraVentana = true;
+                }
             }
-            private bool EstaMuertoPj(Anima anima)
+        }
+        private void DibujarGameOver(RenderWindow ventana) 
+        {
+            if (boolDibujarGameOver)
             {
-                if (anima.VIDA >= 0)
-                {
-                    return false;
-                }
-                return true;
+                ventana.Draw(rectGameOver);
+                ventana.Draw(txtGameOver);
+            }
+        }
+
+        private void CerrarVentana(RenderWindow ventana) 
+        {
+            if (boolCerraVentana)
+            {
+                ventana.Close();
             }
         }
     }

@@ -22,6 +22,7 @@ namespace DiggerMax
         public int VIDAMAX{get;set;}
         public int DANIO { get; set; }
         public bool MUERTO { get; set; }
+
         public EstadosPj ESTADO_AHORA_PJ { get; set; }//objeto para acceder al enumerador
         //Campos
         private Sprite sprite;
@@ -163,13 +164,23 @@ namespace DiggerMax
         {
             this.nombre = nombre;
         }
-
         public void RecibeDano(int dano) 
         {
             VIDA -= dano;
             if (VIDA < 0) 
             {
                 VIDA = 0;
+            }
+        }
+        public bool EstaVivo(Anima anima) 
+        {
+            if (anima.VIDA <= 0)
+            {
+                return false;
+            }
+            else 
+            {
+                return true;
             }
         }
     }
