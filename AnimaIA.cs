@@ -8,7 +8,7 @@ namespace DiggerMax
     {
         public List<PuntoCamino> PuntoCaminoLista { get; set; }
         private int siguientePuntoIndex = 1;
-
+        
         private Clock clockIA;
         public AnimaIA(string nombreArchivo, int tamanioFrame):base(nombreArchivo,tamanioFrame)
         {

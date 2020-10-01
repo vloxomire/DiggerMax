@@ -134,15 +134,20 @@ namespace DiggerMax
             textColision.Position = enemigoPosicion;
 
             seChocan = ChequeoColision(deltaTiempo);
+            if (seChocan)
+            {
+                enemigo.ESTADO_AHORA_PJ = EstadosPj.AtacarDerecha;
+            }
             if (seChocan && enemigo.GetClock().ElapsedTime.AsSeconds() > enemigo.NEXTATTACK)
             {
+                
                 Console.WriteLine("VidaPj:" + personaje.VIDA);
                 personaje.RecibeDano(enemigo.DANIO);
                 Console.WriteLine("VidaPj:" + personaje.VIDA);
                 Console.WriteLine("NextAttack:" + enemigo.NEXTATTACK);
-                enemigo.NEXTATTACK += 3;
+                enemigo.NEXTATTACK += 2;
                 Console.WriteLine("NextAttack:" + enemigo.NEXTATTACK);
-
+                
                 if (enemigo.GetClock().ElapsedTime.AsSeconds() > 10)
                 {
                     enemigo.NEXTATTACK = 0;
@@ -324,7 +329,6 @@ namespace DiggerMax
                 //Rematar(enemigo, EstaMuerto(enemigo));
             }
         }
-
         private void Rematar(Anima anima, bool muerto)
         {
             if (!muerto)

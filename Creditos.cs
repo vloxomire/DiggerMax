@@ -24,7 +24,7 @@ namespace DiggerMax
             {
                 FillColor = Color.Black,
             };
-            txtGracias = new Text(" Gracias al Prof.Lucas Malvaso, a\nJuan M.J.Juairi mi compañero de cursada\n por soportarme fundirles\n la cabeza a preguntas, y ami por el esfuerzo\n" +
+            txtGracias = new Text(" Gracias al Prof.Lucas Malvaso, a\nJuan M.J.Juairi mi compañero de cursada\n por soportarme fundirles\n la cabeza a preguntas\n" +
                 "Alumno Max Sebastian Saldaña.\n\n\"M\" para volver al menu", new Font("Fuentes/fichin.ttf"));
             txtGracias.Scale = new Vector2f(0.7f, 0.7f);
             Console.WriteLine("Se carga Contenido");

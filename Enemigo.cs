@@ -17,7 +17,7 @@ namespace DiggerMax
         public bool ATACO;
         public bool CONTACTO;
         public bool HABLAR;
-
+        
         private Animacion arribaCombate;
         private Animacion izquierdaCombate;
         private Animacion abajoCombate;
@@ -40,7 +40,7 @@ namespace DiggerMax
             ATACO = false;
             CONTACTO = false;
             HABLAR = false;
-
+            
             Inicializar();
             CargarContenido();
         }
