@@ -24,6 +24,7 @@ namespace DiggerMax
         private Animacion fisura03;
         private Animacion fisura04;
         private float velocidadAnimacion;
+        private Sonido sonido;
         public Menu()
         {
             textoBooolNewGame = false;
@@ -34,6 +35,7 @@ namespace DiggerMax
         }
         public override void Inicio()
         {
+            sonido = new Sonido();
             tiempo = new Clock();
             CargarContenido();
         }
@@ -41,6 +43,7 @@ namespace DiggerMax
         {
             if (spriteNewGame.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
             {
+                Sonido.sonidoInstancia.PlayPortalSound();
                 textoBooolNewGame = true;
             }
             else 
@@ -50,6 +53,7 @@ namespace DiggerMax
 
             if (spriteCredits.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
             {
+                Sonido.sonidoInstancia.PlayPortalSound();
                 boolCredit = true;
             }
             else
@@ -59,6 +63,7 @@ namespace DiggerMax
 
             if (spriteExit.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
             {
+                Sonido.sonidoInstancia.PlayPortalSound();
                 boolExit = true;
             }
             else
@@ -69,18 +74,21 @@ namespace DiggerMax
             {
                 if (spriteNewGame.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
                 {
+                    Sonido.sonidoInstancia.PlayPortalSound();
                     Musica.musicaInstancia.DetenerSonido();
-                    Musica.musicaInstancia.GestorSonido(2);
+                    Musica.musicaInstancia.GestorMusica(2);
                     GerenteDeEscena.CargarEscena(new ComoSeJuega());
                 }
 
                 if (spriteCredits.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
                 {
+                    Sonido.sonidoInstancia.PlayPortalSound();
                     GerenteDeEscena.CargarEscena(new Creditos());
                 }
 
                 if (spriteExit.GetGlobalBounds().Contains(posicionRaton.X, posicionRaton.Y))
                 {
+                    
                     cerrarventana = true;
                 }
             }
@@ -231,5 +239,7 @@ namespace DiggerMax
                 Position = new Vector2f(txtRecExit.Position.X +5, txtRecExit.Position.Y + 5),
             };
         }
+
+       
     }
 }

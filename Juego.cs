@@ -37,8 +37,7 @@ namespace DiggerMax
         }
         public void Correr()
         {
-            Sonido.PlaySonido();
-            musica.GestorSonido(1);
+            musica.GestorMusica(1);
             //SE ELEIJE LA ESCENA MOSTRAR
             GerenteDeEscena.CargarEscena(new Menu());
             //GerenteDeEscena.CargarEscena(new ComoSeJuega());

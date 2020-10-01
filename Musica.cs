@@ -8,8 +8,7 @@ namespace DiggerMax
     class Musica
     {
         public static Musica musicaInstancia;
-        private SoundBuffer sonidoBuffer;
-        private Sound sonidoMenu, sonidoGamePlay;
+        private Music musicMenu, musicGamePlay;
         public Musica() 
         {
             musicaInstancia = this;
@@ -20,36 +19,32 @@ namespace DiggerMax
             Console.Clear();
             try
             {
-                sonidoBuffer = new SoundBuffer("Recursos/codex2015.ogg");
-                sonidoMenu = new Sound(sonidoBuffer);
-                sonidoGamePlay = new Sound(new SoundBuffer("Recursos/doom.ogg"));
-                Console.WriteLine("Se carga el buffer y el tema musical");
+                musicMenu = new Music("Recursos/codex2015.ogg");
+                musicGamePlay = new Music("Recursos/doom.ogg");
+                Console.WriteLine("Se cargan los temas musicales");
             }
             catch (Exception)
             {
-
-                Console.WriteLine("No se pudo carga el buffer y el tema musical"); 
+                Console.WriteLine("No se pudo carga la musica"); 
             }
         }
-        public void GestorSonido(int pista)
+        public void GestorMusica(int pista)
         {
             switch (pista)
             {
                 case 1:
-                    sonidoMenu.Play();
+                    musicMenu.Play();
                     break;
                 case 2:
-                    sonidoGamePlay.Play();
+                    musicGamePlay.Play();
                     break;
                 default:
                     break;
-            }
-            
-            
+            }  
         }
         public void DetenerSonido() 
         {
-            sonidoMenu.Stop();
+            musicMenu.Stop();
         }
     }
 }

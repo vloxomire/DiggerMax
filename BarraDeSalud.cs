@@ -100,9 +100,17 @@ namespace DiggerMax
         }
         public void Draw(RenderWindow ventana, Vector2f posicion)
         {
-            ventana.Draw(barraRoja);
-            ventana.Draw(barraVerde);
-            ventana.Draw(corazonSprite);
+            if (anima.MUERTO)
+            {
+
+            }
+            else 
+            {
+                ventana.Draw(barraRoja);
+                ventana.Draw(barraVerde);
+                ventana.Draw(corazonSprite);
+            }
+            
         }
         public void UpdateSalud(float saludActual, float saludMaxima)
         {

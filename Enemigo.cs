@@ -80,8 +80,12 @@ namespace DiggerMax
         }
         public override void Dibujar(RenderWindow ventana)
         {
-            ventana.Draw(tiempoAtaque);
-            ventana.Draw(textDialogo);
+            if (!MUERTO)
+            {
+                ventana.Draw(tiempoAtaque);
+                ventana.Draw(textDialogo);
+            }
+            
             base.Dibujar(ventana);
 
         }
@@ -91,27 +95,25 @@ namespace DiggerMax
         }
         private void GestionarWarCry()
         {
+            if (tiempoFloat < 4f)
             {
-                if (tiempoFloat < 4f)
+                textDialogo.FillColor = Color.Transparent;
+            }
+            else
+            {
+                textDialogo.FillColor = Color.White;
+                textDialogo.CharacterSize = 12;
+                if (tiempoFloat > 5.0f)
                 {
-                    textDialogo.FillColor = Color.Transparent;
+                    textDialogo.CharacterSize = 18;
                 }
-                else
+                if (tiempoFloat > 7f)
                 {
-                    textDialogo.FillColor = Color.White;
-                    textDialogo.CharacterSize = 12;
-                    if (tiempoFloat > 5.0f)
-                    {
-                        textDialogo.CharacterSize = 18;
-                    }
-                    if (tiempoFloat > 7f)
-                    {
-                        textDialogo.CharacterSize = 25;
-                    }
-                    if (tiempoFloat > 13f)
-                    {
-                        Time time = enemyTime.Restart();
-                    }
+                    textDialogo.CharacterSize = 25;
+                }
+                if (tiempoFloat > 13f)
+                {
+                    Time time = enemyTime.Restart();
                 }
             }
         }
@@ -123,5 +125,6 @@ namespace DiggerMax
         {
             return enemyTime;
         }
+        
     }
 }

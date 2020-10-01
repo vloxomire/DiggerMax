@@ -13,6 +13,9 @@ namespace DiggerMax
         /// <summary>
         /// 
         /// </summary>
+        /// 
+        public enum EstadosPortal { Apertura};
+        private EstadosPortal portalAhora;
         public float Y_POS_TEXT { get; set; }
         private Personaje personaje;
         private Enemigo enemigo;
@@ -22,17 +25,22 @@ namespace DiggerMax
         private bool isActivo;
         private bool seChocan;
         private bool isGolpe;
+        private float velocidadAnimPortal;
         private Mapa mapa;
         private View camara;//camara
         private Color colorPj;
         private Color colorEnem;
         private RectangleShape rectGameOver;
         private Font fuente;
-        private Text text, textColision,txtGameOver;
+        private Text tiempoTxt, textColision, txtGameOver, txtWinGame;
         Font font = new Font("Fuentes/MarioKart.ttf");
-        private string tempo;
-        private Clock tiempoGameOver;
-        private bool boolActivarTiempoGameOver, boolDibujarGameOver, boolCerraVentana;
+        private string tempo, vidaData;
+        private Clock tiempoGameOver,tiempoPortal;
+        private bool boolActivarTiempoGameOver, boolDibujarGameOver,boolDibujarWinGame, boolCerraVentana;
+        private Sprite spritePortal;
+        private IntRect intRecPortal;
+        private Animacion vortice;
+        private Animacion portalAnimado;
         public ComoSeJuega()
         {
             colorPj = new Color();
@@ -41,12 +49,24 @@ namespace DiggerMax
             isActivo = false;
             seChocan = false;
             isGolpe = false;
-            boolActivarTiempoGameOver=false;
+            boolActivarTiempoGameOver = false;
             boolDibujarGameOver = false;
             boolCerraVentana = false;
+            vortice = new Animacion(0,0,5);
+            velocidadAnimPortal =0.2f;
+            spritePortal = new Sprite(new Texture("Sprite/portal2.png"))
+            {
+                Scale=new Vector2f(2,2),
+                Position = new Vector2f(580f,100f),
+            };
+            intRecPortal = new IntRect(0, 0, 32, 32);
+            portalAhora = EstadosPortal.Apertura;
+            portalAnimado = vortice;
         }
         public override void Inicio()
         {
+            tiempoPortal = new Clock();
+           
             //Camara
             camara = new View(new Vector2f(0, 0), new Vector2f(800, 600));//camara init
             camara = new View(new Vector2f(Juego.width, Juego.height), new Vector2f(Juego.width, Juego.height));
@@ -75,34 +95,36 @@ namespace DiggerMax
             enemigo.PuntoCaminoLista.Add(new PuntoCamino(10, 110));
             enemigo.PuntoCaminoLista.Add(new PuntoCamino(Juego.width, 110));
             //ayuda de relog
-            text = new Text(tempo, font);
-            text.Position = new Vector2f(0, 0);
+            tiempoTxt = new Text(tempo, font);
+            tiempoTxt.Position = new Vector2f(0, 0);
 
             //avizo GameOver
-            rectGameOver = new RectangleShape(new Vector2f(300f, 100f))
+            rectGameOver = new RectangleShape(new Vector2f(300f, 50f))
             {
                 FillColor = Color.Black,
-                
+
             };
-            txtGameOver = new Text("GAME OVER viejo!!!", font)
-            {
-                
-            };
-            
+            txtGameOver = new Text("GAME OVER viejo!!!", font);
+            txtWinGame = new Text("Has ganado!!!", font);
+
         }
 
         public override void Actualizar(float deltaTiempo, Vector2i posicionRaton)
         {
 
             //En el actualizar del GamePlay un rejunte de los demas actualizar(update),que intervienen en el play*/
-            personaje.Actualizar(deltaTiempo);
+
             enemigo.Actualizar(deltaTiempo);
+            vidaData = enemigo.VIDA.ToString();
+
+            personaje.Actualizar(deltaTiempo);
+
             NoCaerALaLava(deltaTiempo);
 
-            string vidaData = enemigo.VIDA.ToString();
+
             textoDamage.Actualizar(deltaTiempo, vidaData, isActivo, personaje, enemigo);
 
-         
+
 
             //texto de colision
             string coli = seChocan.ToString();
@@ -114,14 +136,6 @@ namespace DiggerMax
             seChocan = ChequeoColision(deltaTiempo);
             if (seChocan && enemigo.GetClock().ElapsedTime.AsSeconds() > enemigo.NEXTATTACK)
             {
-                //de donde es la colision
-                /*switch ()
-                {
-                    case 
-                    default:
-                }*/
-
-                //enemigo.ESTADO_AHORA_PJ=EstadosPj.
                 Console.WriteLine("VidaPj:" + personaje.VIDA);
                 personaje.RecibeDano(enemigo.DANIO);
                 Console.WriteLine("VidaPj:" + personaje.VIDA);
@@ -134,12 +148,33 @@ namespace DiggerMax
                     enemigo.NEXTATTACK = 0;
                 }
             }
-            barraDeSaludEne.Update(deltaTiempo,enemigo);
-            barraDeSaludPer.Update(deltaTiempo,personaje);
+            barraDeSaludEne.Update(deltaTiempo, enemigo);
+            barraDeSaludPer.Update(deltaTiempo, personaje);
+            //AnimacionPortal
+            if (tiempoPortal.ElapsedTime.AsSeconds() > velocidadAnimPortal)
+            {
+                if (portalAnimado != null)
+                {
+                    intRecPortal.Top = portalAnimado.setArriba;
+                    if (intRecPortal.Left == (portalAnimado.numeroDeFrames - 1) * 32)
+                    {
+                        intRecPortal.Left = 0;
+                    }
+                    else
+                    {
+                        intRecPortal.Left += 32;
+                    }
+                }
+                tiempoPortal.Restart();
+            }
+            spritePortal.TextureRect = intRecPortal;
             //Verifico resultados
             GestorVidas();
+            MuerteNpc();
             rectGameOver.Position = new Vector2f(personaje.XPOS_ANIMA + 5, personaje.YPOS_ANIMA + 5);
             txtGameOver.Position = new Vector2f(personaje.XPOS_ANIMA + 5, personaje.YPOS_ANIMA + 5 / 2);
+            txtWinGame.Position = new Vector2f(personaje.XPOS_ANIMA + 5, personaje.YPOS_ANIMA + 5 / 2);
+            Ganarjuego();
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -147,16 +182,23 @@ namespace DiggerMax
             camara.Center = new Vector2f(personaje.XPOS_ANIMA, personaje.YPOS_ANIMA);//Centro camara en pj
             ventana.SetView(camara);//la ventana es la camara
             mapa.Draw(ventana);
-            ventana.Draw(text);
+            ventana.Draw(spritePortal);
+            ventana.Draw(tiempoTxt);
             personaje.Dibujar(ventana);
             //COLISIONES
-            enemigo.Dibujar(ventana);
+            if (enemigo != null)
+            {
+                enemigo.Dibujar(ventana);
+                barraDeSaludEne.Draw(ventana, new Vector2f(enemigo.XPOS_ANIMA, enemigo.YPOS_ANIMA + 10f));
+            }
             textoDamage.Draw(ventana);
             //ventana.Draw(textColision);
-            barraDeSaludEne.Draw(ventana, new Vector2f(enemigo.XPOS_ANIMA, enemigo.YPOS_ANIMA + 10f));
+
             barraDeSaludPer.Draw(ventana, new Vector2f(personaje.XPOS_ANIMA, personaje.YPOS_ANIMA + 10f));
+            
             //ventanaGameOver
             DibujarGameOver(ventana);
+            DibujarWinGame(ventana);
             CerrarVentana(ventana);
         }
         private void NoCaerALaLava(float deltaTiempo)
@@ -306,7 +348,7 @@ namespace DiggerMax
                 {
                     return;
                 }
-                else 
+                else
                 {
                     personaje.VIDA = personaje.VIDA - enemigo.DANIO;
                     barraDeSaludPer.UpdateSalud(personaje.VIDA, personaje.VIDAMAX);
@@ -322,16 +364,16 @@ namespace DiggerMax
             {
                 enemigo.VIDA = 0;
             }
-            
+
             barraDeSaludEne.UpdateSalud(enemigo.VIDA, enemigo.VIDAMAX);
         }
         public override void Destruir()
         {
             throw new NotImplementedException();
         }
-        private void GestorVidas() 
+        private void GestorVidas()
         {
-            if (!personaje.EstaVivo(personaje)) 
+            if (!personaje.EstaVivo(personaje))
             {
                 if (!boolActivarTiempoGameOver)
                 {
@@ -339,13 +381,13 @@ namespace DiggerMax
                     boolActivarTiempoGameOver = true;
                     boolDibujarGameOver = true;
                 }
-                if (tiempoGameOver.ElapsedTime.AsSeconds() >3)
+                if (tiempoGameOver.ElapsedTime.AsSeconds() > 3)
                 {
                     boolCerraVentana = true;
                 }
             }
         }
-        private void DibujarGameOver(RenderWindow ventana) 
+        private void DibujarGameOver(RenderWindow ventana)
         {
             if (boolDibujarGameOver)
             {
@@ -353,13 +395,51 @@ namespace DiggerMax
                 ventana.Draw(txtGameOver);
             }
         }
+        private void DibujarWinGame(RenderWindow ventana)
+        {
+            if (boolDibujarWinGame)
+            {
+                ventana.Draw(rectGameOver);
+                ventana.Draw(txtWinGame);
+            }
+        }
 
-        private void CerrarVentana(RenderWindow ventana) 
+        private void CerrarVentana(RenderWindow ventana)
         {
             if (boolCerraVentana)
             {
                 ventana.Close();
             }
+        }
+        private void MuerteNpc()
+        {
+            if (enemigo.VIDA <= 0)
+            {
+                enemigo.GetSprite().Color = Color.Transparent;
+                enemigo.XPOS_ANIMA = 0;
+                enemigo.YPOS_ANIMA = 0;
+                enemigo.MUERTO = true;
+                tiempoTxt.FillColor = Color.Transparent;
+            }
+        }
+        private void Ganarjuego() 
+        {
+            if (!boolActivarTiempoGameOver && enemigo.MUERTO && spritePortal.GetGlobalBounds().Contains(personaje.XPOS_ANIMA, personaje.YPOS_ANIMA))
+            {
+                tiempoGameOver = new Clock();
+                boolDibujarWinGame = true;
+                boolActivarTiempoGameOver = true;
+                
+            }
+            if (boolActivarTiempoGameOver) 
+            {
+                if (tiempoGameOver.ElapsedTime.AsSeconds() > 2)
+                {
+                    boolCerraVentana = true;
+                }
+            }
+            
+
         }
     }
 }

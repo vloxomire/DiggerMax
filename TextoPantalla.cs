@@ -26,7 +26,7 @@ namespace DiggerMax
             this.YPOS_TEXT = anima.YPOS_ANIMA;
             this.XPOS_TEXT = anima.XPOS_ANIMA;
             //NOMBRES
-            
+
             nombreTexto2 = new Text(anima.GetName(), font);
 
             //textoPrueba
@@ -38,12 +38,15 @@ namespace DiggerMax
             text.Position = textLugar;//pos init
         }
 
-        public void Actualizar(float deltaTiempo, string vidaData, bool isActivo,Personaje personaje,Enemigo enemigo)
+        public void Actualizar(float deltaTiempo, string vidaData, bool isActivo, Personaje personaje, Enemigo enemigo)
         {
             nombreTexto1 = new Text(personaje.GetName(), font);
-            nombreTexto1.Position = new Vector2f(personaje.GetSprite().GetGlobalBounds().Left, personaje.GetSprite().GetGlobalBounds().Top-40);
+            nombreTexto1.Position = new Vector2f(personaje.GetSprite().GetGlobalBounds().Left, personaje.GetSprite().GetGlobalBounds().Top - 40);
+            if (enemigo != null)
+            {
+                nombreTexto2.Position = new Vector2f(enemigo.XPOS_ANIMA, enemigo.YPOS_ANIMA - 40);
+            }
 
-            nombreTexto2.Position = new Vector2f(enemigo.XPOS_ANIMA, enemigo.YPOS_ANIMA-40);
             if (isActivo)
             {
                 text.FillColor = Color.Yellow;
@@ -61,19 +64,15 @@ namespace DiggerMax
         }
         public void Draw(RenderWindow ventana)
         {
-
-            ventana.Draw(text);
-            try
+            if (anima.MUERTO)
             {
-                //ventana.Draw(nombreTexto1);
+
+            }
+            else 
+            {
+                ventana.Draw(text);
                 ventana.Draw(nombreTexto2);
             }
-            catch (Exception)
-            {
-
-                throw;
-            } 
-
         }
         public void SetMensaje(string mensaje)
         {
