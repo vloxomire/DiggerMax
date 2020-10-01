@@ -37,10 +37,6 @@ namespace DiggerMax
         }
         public void Correr()
         {
-            /*var circulo = new CircleShape(100f)
-            {
-                FillColor = Color.Blue
-            };*/
             Sonido.PlaySonido();
             //SE ELEIJE LA ESCENA MOSTRAR
             GerenteDeEscena.CargarEscena(new Menu());
@@ -49,6 +45,7 @@ namespace DiggerMax
 
             while (ventana.IsOpen)
             {
+                
                 ventana.Clear(new Color(34,40,42));
                 Actualizar();
                 Dibujar();

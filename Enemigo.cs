@@ -118,7 +118,7 @@ namespace DiggerMax
                     {
                         textDialogo.CharacterSize = 25;
                     }
-                    if (tiempoFloat > 13f)
+                    if (tiempoFloat > 11f)
                     {
                         Time time = enemyTime.Restart();
                     }

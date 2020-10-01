@@ -1,5 +1,6 @@
 ﻿using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,24 +9,45 @@ namespace DiggerMax
 {
     class Creditos : Escena
     {
-        public override void Actualizar(float DeltaTime, Vector2i posicionRaton)
+        private RectangleShape fondo;
+        private Text txtGracias;
+        public Creditos()
         {
-            throw new NotImplementedException();
+      
+            Console.WriteLine("Hola soy el constructor de Creditos");
+            Inicio();
+            CargarContenido();
         }
-
-        public override void Destruir()
+        private void CargarContenido()
         {
-            throw new NotImplementedException();
+            fondo = new RectangleShape(new Vector2f(600f, 600f))
+            {
+                FillColor = Color.Black,
+            };
+            txtGracias = new Text(" Gracias al Prof.Lucas Malvaso, a\nJuan M.J.Juairi mi compañero de cursada\n por soportarme fundirles\n la cabeza a preguntas, y ami por el esfuerzo\n" +
+                "Alumno Max Sebastian Saldaña.\n\n\"M\" para volver al menu", new Font("Fuentes/fichin.ttf"));
+            txtGracias.Scale = new Vector2f(0.7f, 0.7f);
+            Console.WriteLine("Se carga Contenido");
         }
-
-        public override void Dibujar(RenderWindow ventana)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Inicio()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Se carga Inicio");
+        }
+        public override void Actualizar(float DeltaTime, Vector2i posicionRaton)
+        {
+            if (Keyboard.IsKeyPressed(Keyboard.Key.M))
+            {
+                GerenteDeEscena.CargarEscena(new Menu());
+            }
+        }
+        public override void Dibujar(RenderWindow ventana)
+        {
+            ventana.Draw(fondo);
+            ventana.Draw(txtGracias);
+        }
+        public override void Destruir()
+        {
+            Console.WriteLine("Hola soy el destructor de Creditos");
         }
     }
 }

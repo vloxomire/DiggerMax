@@ -119,7 +119,14 @@ namespace DiggerMax
             }
             barraDeSaludEne.Update(deltaTiempo,enemigo);
             barraDeSaludPer.Update(deltaTiempo,personaje);
-            //Luchar(seChocan);
+            //Verifico resultados
+            GestorVidasPjyNpc();
+            if (EstaMuertoPj(personaje))
+            {
+
+            }
+            
+
         }
         public override void Dibujar(RenderWindow ventana)
         {
@@ -259,15 +266,7 @@ namespace DiggerMax
                 //Rematar(enemigo, EstaMuerto(enemigo));
             }
         }
-        private bool EstaMuerto(Anima anima)
-        {
-            if (anima.VIDA >= 0)
-            {
-                return false;
-            }
-            enemigo.MUERTO = true;
-            return true;
-        }
+
         private void Rematar(Anima anima, bool muerto)
         {
             if (!muerto)
@@ -313,6 +312,25 @@ namespace DiggerMax
         public override void Destruir()
         {
             throw new NotImplementedException();
+        }
+        private void GestorVidasPjyNpc() 
+        {
+            private bool EstaMuertoPj(Anima anima)
+            {
+                if (anima.VIDA >= 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+            private bool EstaMuertoPj(Anima anima)
+            {
+                if (anima.VIDA >= 0)
+                {
+                    return false;
+                }
+                return true;
+            }
         }
     }
 }
