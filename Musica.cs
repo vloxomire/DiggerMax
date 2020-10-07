@@ -16,7 +16,7 @@ namespace DiggerMax
         }
         private void Inicializador() 
         {
-            Console.Clear();
+            //Console.Clear();
             try
             {
                 musicMenu = new Music("Recursos/codex2015.ogg");

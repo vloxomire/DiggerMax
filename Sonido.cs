@@ -17,7 +17,7 @@ namespace DiggerMax
         }
         private void Inicializador() 
         {
-            Console.Clear();
+            //Console.Clear();
             try
             {
                 soundPortal =new Sound(soundBuffer);
